@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "978363633941",
+    "firebase_url": "https://lupic-b2ae2-default-rtdb.firebaseio.com",
+    "project_id": "lupic-b2ae2",
+    "storage_bucket": "lupic-b2ae2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978363633941:android:6628a88c0309d3b488991c",
+        "android_client_info": {
+          "package_name": "com.example.lupic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "978363633941-pntpejk888hu39tj2ggqdn5nlopjdbis.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lupic",
+            "certificate_hash": "cb103ec58299809888e0c5c286de75c62ba78f84"
+          }
+        },
+        {
+          "client_id": "978363633941-fngs8pve9ejp1k48o59bkbevh1jehhpq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlXHAaXeih38raBpcsIOOYDBVhTaMDeiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "978363633941-fngs8pve9ejp1k48o59bkbevh1jehhpq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

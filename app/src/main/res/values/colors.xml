@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="purple_800">#9673C4</color>
+    <color name="purple_900">#705693</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_400">#F5F5F5</color>
+
+
+    <color name="calendarDay">#2E3E4B</color>
+    <color name="calendarBackGround">#F2F5FD</color>
+    <color name="border">#D7D7D7</color>
+    <color name="purple_100">#DED4ED</color>
+    <color name="formulario">#F2F5FD</color>
+</resources>
