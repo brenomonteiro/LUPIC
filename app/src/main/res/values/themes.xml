@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Lupicapp" parent="android:Theme.Material.Light.NoActionBar" />
-</resources>
+
+
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <!-- Cor de fundo da Splash Screen -->
+        <item name="windowSplashScreenBackground">@color/purple_800</item>
+
+        <!-- Ícone central da Splash Screen -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_lupic_logo</item>
+
+        <!-- Duração mínima da Splash Screen -->
+        <!--<item name="postSplashScreenTheme">@android:style/Theme.Material.Light.NoActionBar</item>-->
+        <item name="postSplashScreenTheme">@style/Theme.Lupicapp</item>
+    </style>
+    <!-- <style name="Theme.Lupicapp" parent="android:Theme.Material.Light.NoActionBar" />-->
+     <style name="Theme.Lupicapp" parent="Theme.AppCompat.Light.NoActionBar"/>
+ </resources>

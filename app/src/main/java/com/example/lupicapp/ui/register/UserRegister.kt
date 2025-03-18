@@ -62,7 +62,11 @@ fun UserRegister(
     val password by viewModel.password.collectAsState()
     val repeatPassword by viewModel.repeatPassword.collectAsState()
     val emailError by viewModel.emailError.collectAsState()
+    val repeatEmailError by viewModel.repeatEmailError.collectAsState()
+    val repeatEmailRequiredField by viewModel.repeatEmailRequiredField.collectAsState()
     val passwordError by viewModel.passwordError.collectAsState()
+    val repeatPasswordError by viewModel.repeatPasswordError.collectAsState()
+    val repeatPasswordRequired by viewModel.repeatPasswordRequiredField.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
     val loadState by viewModel.loadState
 
@@ -79,6 +83,29 @@ fun UserRegister(
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxSize()
             ) {
+                item {
+                    when (val state = loginState) {
+                    is LoginResult.Error -> {
+                        LaunchedEffect(state) {
+                            snackbarHostState.showSnackbar(
+                                message = "Erro: ${state.message}",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
+
+                    is LoginResult.Success -> {
+                        LaunchedEffect(Unit) {
+                            navController.navigate("home"){
+                                popUpTo("register") { inclusive = true }
+                                popUpTo("welcome") { inclusive = true }
+                            } // Redireciona para a tela home após o login
+                        }
+                    }
+
+                    else -> {}
+                } }
+
                 item {
                     Text(
                         text = "Cadastre-se",
@@ -108,11 +135,13 @@ fun UserRegister(
                             viewModel.onEmailChange(it)
                             //emailError = it.isBlank() // Marca erro se estiver vazio
                         },
-                        label = {
-                            Text(
-                                text = "Digite seu e-mail",
-                                color = if (emailError) Color.Red else Color.Gray
-                            )
+                        placeholder = { Text(text = "Digite seu e-mail") },
+                        supportingText = {
+                            if (emailError) {
+                                Text(
+                                    text = "Campo obrigatório"
+                                )
+                            }
                         },
                         isError = emailError, // Aplica erro visual
                         modifier = Modifier.fillMaxWidth(),
@@ -127,47 +156,25 @@ fun UserRegister(
                         modifier = Modifier.padding(top = 16.dp)
                     ) // Texto acima do campo
                     TextField(
-                        value = repeatEmail,
+                        value = repeatEmail ?: "",
                         onValueChange = {
                             viewModel.onRepeatEmailChange(it)
                             // emailError = it.isBlank()
                             // Marca erro se estiver vazio
                         },
-                        label = {
+                        supportingText = {
+                            // if (repeatEmailError) {
                             Text(
-                                text = "Repita o e-mail",
-                                color = if (emailError) Color.Red else Color.Gray
+                                text = repeatEmailRequiredField
                             )
+                            //  }
                         },
-                        isError = emailError, // Aplica erro visual
+                        placeholder = { Text(text = "Repita o e-mail") },
+                        isError = repeatEmailError, // Aplica erro visual
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
                 }
-
-//                item {
-//                    Text(
-//                        text = "Crie uma senha",
-//                        fontSize = 12.sp,
-//                        modifier = Modifier.padding(top = 16.dp)
-//                    )
-//                    TextField(
-//                        modifier = Modifier.fillMaxSize(),
-//                        value = password,
-//                        onValueChange = {
-//                            password = it
-//                            passwordError = it.isBlank()},
-//                        label = {
-//                            Text(
-//                                text = "Digite sua senha",
-//                                color = if (passwordError) Color.Red else Color.Gray
-//                            )
-//                        },
-//                        placeholder = { Text(text = "Digite sua senha") },
-//                        isError = passwordError, // Aplica erro visual
-//
-//                    )
-//                }
 
 
                 item {
@@ -181,17 +188,11 @@ fun UserRegister(
 
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = password,
+                        value = password ?: "",
                         onValueChange = {
                             //password = it
                             viewModel.onPasswordChange(it)
                             //passwordError = it.isBlank()
-                        },
-                        label = {
-                            Text(
-                                text = "Digite sua senha",
-                                color = if (passwordError) Color.Red else Color.Gray
-                            )
                         },
                         placeholder = { Text(text = "Digite sua senha") },
                         isError = passwordError, // Aplica erro visual
@@ -206,7 +207,14 @@ fun UserRegister(
                                     contentDescription = "Alternar visibilidade da senha"
                                 )
                             }
-                        }
+                        },
+                        supportingText = {
+                            if (passwordError) {
+                                Text(
+                                    text = "Campo obrigatório"
+                                )
+                            }
+                        },
                     )
                 }
 
@@ -222,18 +230,12 @@ fun UserRegister(
 
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = repeatPassword,
+                        value = repeatPassword ?: "",
                         onValueChange = {
                             viewModel.onRepeatPasswordChange(it)
                         },
-                        label = {
-                            Text(
-                                text = "Repita suaa senha",
-                                color = if (passwordError) Color.Red else Color.Gray
-                            )
-                        },
                         placeholder = { Text(text = "Digite sua senha") },
-                        isError = passwordError, // Aplica erro visual
+                        isError = repeatPasswordError, // Aplica erro visual
                         singleLine = true,
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
@@ -245,46 +247,20 @@ fun UserRegister(
                                     contentDescription = "Alternar visibilidade da senha"
                                 )
                             }
-                        }
+                        },
+                        supportingText = {
+                            Text(
+                                text = repeatPasswordRequired
+                            )
+                        },
                     )
                 }
-
-//                item {
-//                    Text(
-//                        text = "Repita sua senha",
-//                        fontSize = 12.sp,
-//                        modifier = Modifier.padding(top = 16.dp)
-//                    )
-//                    TextField(
-//                        modifier = Modifier.fillMaxSize(),
-//                        value = "password",
-//                        onValueChange = {
-////                            password = it
-////                            passwordError = it.isBlank()
-//                                        },
-//                        label = {
-//                            Text(
-//                                text = "Repita suaa senha",
-//                                color = if (passwordError) Color.Red else Color.Gray
-//                            )
-//                        },
-//                        placeholder = { Text(text = "Digite sua senha") },
-//                        isError = passwordError, // Aplica erro visual
-//
-//                    )
-//                }
 
                 item {
                     Button(
                         onClick = {
-
                             viewModel.registerUser()
-//                            emailError = email.isBlank()
-//                            passwordError = password.isBlank()
-//
-//                            if (!emailError && !passwordError) {
-//                                viewModel.registerUser(email, password)
-//                            }
+                            //viewModel.registerUser()
                         },
                         shape = RoundedCornerShape(5.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.purple_800)), // Fundo branco
@@ -309,9 +285,4 @@ fun UserRegister(
             CircularProgressIndicator(color = Color.White)
         }
     }
-
 }
-
-
-
-

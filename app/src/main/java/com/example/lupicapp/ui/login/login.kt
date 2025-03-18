@@ -65,7 +65,6 @@ fun Login(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val loginState by viewModel.loginState
-    val textState = remember { mutableStateOf("") }
     var emailError by remember { mutableStateOf(false) }
     var passwordError by remember { mutableStateOf(false) }
 
@@ -83,7 +82,7 @@ fun Login(
             }
         }
 
-    Box(modifier = Modifier.fillMaxSize()){
+    Box(modifier = Modifier.fillMaxSize()) {
 
         AppScaffold(showTopBar = false) { innerPadding, snackbarHostState ->
             LazyColumn(
@@ -122,45 +121,25 @@ fun Login(
                             email = it
                             emailError = it.isBlank() // Marca erro se estiver vazio
                         },
-                        label = {
-                            Text(
-                                text = "Email",
-                                color = if (emailError) Color.Red else Color.Gray
-                            )
+                        placeholder = { Text(text = "Digite seu e-mail") },
+                        supportingText = {
+                            if(emailError){
+                                Text(
+                                    text = "Campo obrigatório"
+                                )
+                            }
                         },
+//                        label = {
+//                            Text(
+//                                text = "Email",
+//                                color = if (emailError) Color.Red else Color.Gray
+//                            )
+//                        },
                         isError = emailError, // Aplica erro visual
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
                 }
-
-//                item {
-//                    Text(
-//                        text = "Senha",
-//                        fontSize = 12.sp,
-//                        modifier = Modifier.padding(top = 16.dp)
-//                    )
-//                    TextField(
-//                        modifier = Modifier.fillMaxSize(),
-//                        value = password,
-//                        onValueChange = {
-//                            password = it
-//                            passwordError = it.isBlank()},
-//                        label = {
-//                            Text(
-//                                text = "Password",
-//                                color = if (passwordError
-//
-//
-//
-//                                ) Color.Red else Color.Gray
-//                            )
-//                        },
-//                        placeholder = { Text(text = "Digite sua senha") },
-//                        isError = passwordError, // Aplica erro visual
-//
-//                    )
-//                }
 
                 item {
                     var passwordVisible by remember { mutableStateOf(false) }
@@ -178,20 +157,25 @@ fun Login(
                             password = it
                             passwordError = it.isBlank()
                         },
-                        label = {
-                            Text(
-                                text = "Senha",
-                                color = if (passwordError) Color.Red else Color.Gray
-                            )
+                        supportingText = {
+                            if(passwordError){
+                                Text(
+                                    text = "Campo obrigatório"
+                                )
+                            }
                         },
                         placeholder = { Text(text = "Digite sua senha") },
                         isError = passwordError, // Aplica erro visual
                         singleLine = true,
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
-                            val icon = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.  VisibilityOff
+                            val icon =
+                                if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Icon(imageVector = icon, contentDescription = "Alternar visibilidade da senha")
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = "Alternar visibilidade da senha"
+                                )
                             }
                         }
                     )
@@ -303,11 +287,11 @@ fun Login(
                                 // modifier = Modifier.size(30.dp)
                             )
                         }
-                        when (loginState) {
-                            is LoginResult.Success -> onLoginSuccess()
-                            is LoginResult.Error -> Text(text = "Erro: ${(loginState as LoginResult.Error).message}")
-                            else -> {}
-                        }
+//                        when (loginState) {
+//                            is LoginResult.Success -> onLoginSuccess()
+//                            //is LoginResult.Error -> Text(text = "Erro: ${(loginState as LoginResult.Error).message}")
+//                            else -> {}
+//                        }
                         Spacer(modifier = Modifier.width(28.dp))
 
                         Box(
@@ -329,15 +313,20 @@ fun Login(
             }
         }
     }
-    if (loginState is LoginResult.Loading) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f)), // Escurece a tela
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator(color = Color.White)
-        }
-    }
 
+    when (loginState) {
+        LoginResult.Loading -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f)), // Escurece a tela
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = Color.White)
+            }
+        }
+
+        is LoginResult.Success -> onLoginSuccess()
+        else -> {}
+    }
 }

@@ -71,27 +71,27 @@ fun Welcome(navController: NavController) {
                     textAlign = TextAlign.Center
                 )
             }
-            item {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp, top = 28.dp)
-                        .border(
-                            width = 1.dp,
-                            color = colorResource(id = R.color.border),
-                            shape = RoundedCornerShape(1.dp)
-                        )
-                ) {
-                    Text(
-                        modifier = Modifier.padding(top = 18.dp, bottom = 18.dp),
-                        text = "Acessar jornal",
-                        fontSize = 16.sp,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
+//            item {
+//                Box(
+//                    contentAlignment = Alignment.Center,
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .padding(start = 16.dp, end = 16.dp, top = 28.dp)
+//                        .border(
+//                            width = 1.dp,
+//                            color = colorResource(id = R.color.border),
+//                            shape = RoundedCornerShape(1.dp)
+//                        )
+//                ) {
+//                    Text(
+//                        modifier = Modifier.padding(top = 18.dp, bottom = 18.dp),
+//                        text = "Acessar jornal",
+//                        fontSize = 16.sp,
+//                        color = Color.Black,
+//                        textAlign = TextAlign.Center
+//                    )
+//                }
+//            }
 
             item {
                 Button(
@@ -105,7 +105,7 @@ fun Welcome(navController: NavController) {
                         containerColor = colorResource(id = R.color.purple_800), // Cor de fundo do botão
                         contentColor = Color.White  // Cor do texto do botão
                     ),
-                    shape = RectangleShape
+                    shape = RoundedCornerShape(5.dp)
                 ) {
                     Text(
                         //modifier = Modifier.padding(top = 18.dp, bottom = 18.dp),

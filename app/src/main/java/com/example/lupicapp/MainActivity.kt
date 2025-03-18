@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,7 +22,7 @@ import com.example.lupicapp.ui.theme.LupicappTheme
 import com.example.lupicapp.ui.welcome.Welcome
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModel() // Injeção do ViewModel via Koin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +31,8 @@ class MainActivity : ComponentActivity() {
 //
       // var referencia = FirebaseDatabase.getInstance().getReference()
             //   val navController = rememberNavController()
-        enableEdgeToEdge()
-       // installSplashScreen()
+        //enableEdgeToEdge()
+       installSplashScreen()
         setContent {
             LupicappTheme(false) {
                 AppNavigation()            }

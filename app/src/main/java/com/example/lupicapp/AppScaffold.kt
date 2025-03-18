@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -27,7 +28,7 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold(
-    showTopBar: Boolean = true,
+    showTopBar: Boolean = false,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }, // Estado da Snackbar
     content: @Composable (PaddingValues, SnackbarHostState) -> Unit,
 ) {
@@ -80,5 +81,20 @@ fun TopBarWithImageAndText() {
                 )
             }
         },
+        actions ={
+            Image(
+                painter = painterResource(id = R.drawable.sino),
+                contentDescription = "Imagem à esquerda",
+                //modifier = Modifier.size(40.dp)
+            )
+            Spacer(modifier = Modifier.width(18.dp))
+            Image(
+                painter = painterResource(id = R.drawable.sandwiche),
+                contentDescription = "Imagem à esquerda",
+               // modifier = Modifier.size(40.dp)
+            )
+            Spacer(modifier = Modifier.width(22.dp))
+
+        }
     )
 }
