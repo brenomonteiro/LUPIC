@@ -27,18 +27,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
 import com.example.lupicapp.model.GridItem
 
 val items = arrayOf(
-    GridItem("Medicamentos", R.drawable.medicamentos) { println("Clicou no Item 1") },
-    GridItem("Sintomas", R.drawable.sintomas) { println("Clicou no Item 2") },
-    GridItem("Jornal", R.drawable.jornal) { println("Clicou no Item 3") }
+    GridItem("Medicamentos", R.drawable.medicamentos, "medicamentos"),
+    GridItem("Sintomas", R.drawable.sintomas, "sintomas"),
+    GridItem("Jornal", R.drawable.jornal, "jornal")
 )
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen( navController: NavController) {
     AppScaffold(showTopBar = true) { innerPadding, _ ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2), // Define 2 colunas fixas
@@ -60,7 +61,7 @@ fun HomeScreen() {
                             colorResource(id = R.color.purple_800),
                             RoundedCornerShape(8.dp)
                         )
-                        .clickable { /* Ação ao clicar */ },
+                        .clickable { navController.navigate(item.navigationRoute) },
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -69,6 +70,7 @@ fun HomeScreen() {
                             contentDescription = "Imagem à esquerda",
                             modifier = Modifier.size(40.dp)
                         )
+
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(text = item.title, color = Color.White, fontSize = 18.sp)
 
@@ -84,7 +86,7 @@ fun HomeScreen() {
 @Preview(showBackground = true)
 @Composable
 fun SimpleGridPreview() {
-    HomeScreen()
+   // HomeScreen()
 }
 
 
