@@ -1,5 +1,7 @@
 package com.example.lupicapp.ui.journal
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +21,7 @@ import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -87,7 +90,7 @@ fun Journal(
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
-                SampleCarousel(listaDeJornalItems)
+                SampleCarousel(listaDeNoticiaslItems)
             }
 
             item {
@@ -97,7 +100,7 @@ fun Journal(
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
-                SampleCarousel(listaDeJornalItems)
+                SampleCarousel(listaDeArtigos)
             }
         }
     }
@@ -113,48 +116,54 @@ val listaDeJornalItems = listOf(
     ),
     JornalItem(
         imageLink = baseImageLink,
-        action = null,
-        link = "https://exemplo.com/noticia2"
-    ),
-    JornalItem(
-        imageLink = baseImageLink,
-        action = "favoritar",
+        action = "treatment",
         link = null
     ),
     JornalItem(
         imageLink = baseImageLink,
-        action = null,
-        link = "https://exemplo.com/noticia4"
-    ),
-    JornalItem(
-        imageLink = baseImageLink,
-        action = "abrir_detalhes",
-        link = "https://exemplo.com/noticia5"
-    ),
-    JornalItem(
-        imageLink = baseImageLink,
-        action = null,
-        link = "https://exemplo.com/noticia6"
-    ),
-    JornalItem(
-        imageLink = baseImageLink,
-        action = "compartilhar",
+        action = "prognostic",
         link = null
     ),
     JornalItem(
         imageLink = baseImageLink,
-        action = "favoritar",
+        action = "lupusType",
         link = null
     ),
     JornalItem(
         imageLink = baseImageLink,
-        action = null,
-        link = "https://exemplo.com/noticia9"
+        action = "diagnostic",
+        link = null
     ),
     JornalItem(
         imageLink = baseImageLink,
-        action = "abrir_detalhes",
-        link = "https://exemplo.com/noticia10"
+        action = "journey",
+        link = null
+    )
+)
+
+val listaDeNoticiaslItems = listOf(
+    JornalItem(
+        imageLink = baseImageLink,
+        action = null,
+        link = "https://www.uol.com.br/vivabem/colunas/lucia-helena/2023/06/01/lupus-depois-de-dez-anos-sem-grande-novidade-surge-um-novo-tratamento.htm"
+    ),
+    JornalItem(
+        imageLink = baseImageLink,
+        action = null,
+        link = "https://www.camara.leg.br/noticias/978610-projeto-equipara-portadores-de-lupus-a-pessoas-com-deficiencia"
+    )
+)
+
+val listaDeArtigos = listOf(
+    JornalItem(
+        imageLink = baseImageLink,
+        action = null,
+        link = "https://www.scielo.br/j/rbr/a/ZLRCGPGN8cTP8SnYg5qFQ8z/?lang=pt#"
+    ),
+    JornalItem(
+        imageLink = baseImageLink,
+        action = null,
+        link = "https://www.scielo.br/j/ape/a/WnZzWmYwnMkFH4Kr7j7PVqN/"
     )
 )
 
@@ -170,13 +179,19 @@ fun SampleCarousel(carrouselList: List<JornalItem>, navController: NavController
         itemSpacing = 20.dp,
 
         ) { i ->
-        val item = listaDeJornalItems[i]
+        val context = LocalContext.current
+        val item = carrouselList[i]
         AsyncImage(
             model = item.imageLink,
             contentDescription = "Imagem carregada",
-            modifier = Modifier.size(200.dp).clickable{
-                item.action?.let { navController?.navigate(it) }
-            }
+            modifier = Modifier
+                .size(200.dp)
+                .clickable {
+                    item.action?.let { navController?.navigate(it) } ?: run {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(item.link))
+                        context.startActivity(intent)
+                    }
+                }
         )
 
     }

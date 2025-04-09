@@ -15,8 +15,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.lupicapp.ui.home.HomeScreen
+import com.example.lupicapp.ui.journal.Diagnostic
 import com.example.lupicapp.ui.journal.Journal
 import com.example.lupicapp.ui.journal.Lupus
+import com.example.lupicapp.ui.journal.LupusType
+import com.example.lupicapp.ui.journal.PatientJourney
+import com.example.lupicapp.ui.journal.Prognostic
+import com.example.lupicapp.ui.journal.Treatment
 import com.example.lupicapp.ui.login.Login
 import com.example.lupicapp.ui.login.LoginViewModel
 import com.example.lupicapp.ui.register.UserRegister
@@ -46,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 fun AppNavigation() {
     val navController: NavHostController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "welcome") {
+    NavHost(navController = navController, startDestination = "jornal") {
 
         composable("welcome") {
             Welcome(
@@ -77,6 +82,21 @@ fun AppNavigation() {
         }
         composable("lupus") {
             Lupus()
+        }
+        composable("treatment") {
+            Treatment()
+        }
+        composable("prognostic") {
+            Prognostic()
+        }
+        composable("lupusType") {
+            LupusType()
+        }
+        composable("diagnostic") {
+            Diagnostic()
+        }
+        composable("journey") {
+            PatientJourney()
         }
     }
 }
