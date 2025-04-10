@@ -45,7 +45,7 @@ fun Journal(
 //    onLoginSuccess: () -> Unit
 ) {
 
-    AppScaffold(showTopBar = true) { innerPadding, _ ->
+    AppScaffold(navController = navController,showBackArrow = true) { innerPadding, _ ->
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(

@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 fun AppNavigation() {
     val navController: NavHostController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "jornal") {
+    NavHost(navController = navController, startDestination = "home") {
 
         composable("welcome") {
             Welcome(
@@ -81,22 +81,22 @@ fun AppNavigation() {
             Journal(navController = navController)
         }
         composable("lupus") {
-            Lupus()
+            Lupus(navController = navController,)
         }
         composable("treatment") {
-            Treatment()
+            Treatment(navController = navController,)
         }
         composable("prognostic") {
-            Prognostic()
+            Prognostic(navController = navController,)
         }
         composable("lupusType") {
-            LupusType()
+            LupusType(navController = navController)
         }
         composable("diagnostic") {
-            Diagnostic()
+            Diagnostic(navController = navController)
         }
         composable("journey") {
-            PatientJourney()
+            PatientJourney(navController = navController,)
         }
     }
 }

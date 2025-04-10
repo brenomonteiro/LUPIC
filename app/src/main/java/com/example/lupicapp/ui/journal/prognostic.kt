@@ -23,12 +23,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
 
 @Composable
-fun Prognostic() {
-    AppScaffold(showTopBar = false, showBackArrow = true) { innerPadding, _ ->
+fun Prognostic(
+    navController: NavController
+) {
+    AppScaffold(navController = navController, showBackArrow = true) { innerPadding, _ ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
@@ -162,5 +165,5 @@ fun Prognostic() {
 @Preview
 @Composable
 fun PrognosticPreview() {
-    Prognostic()
+    //Prognostic()
 }

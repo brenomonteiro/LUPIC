@@ -24,13 +24,16 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
 import com.example.lupicapp.model.textWithSpan
 
 @Composable
-fun LupusType() {
-    AppScaffold(showTopBar = false, showBackArrow = true) { innerPadding, _ ->
+fun LupusType(
+    navController: NavController
+) {
+    AppScaffold(navController = navController, showBackArrow = true) { innerPadding, _ ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
@@ -58,22 +61,32 @@ fun LupusType() {
                             "As principais formas da doença são:"
 
                 Text(
-                    text = text.highlightWord(targetWord = "As principais formas da doença são:", fontSize = 16.sp ),
+                    text = text.highlightWord(
+                        targetWord = "As principais formas da doença são:",
+                        fontSize = 16.sp
+                    ),
                     fontSize = 16.sp
                 )
             }
 
 
-
             val treatmentMethodsList = arrayOf(
-                textWithSpan("Lúpus Discoide: esse tipo de lúpus fica limitado à pele  da pessoa. Pode ser identificado com o surgimento de lesões avermelhadas com tamanhos, formatos e colorações específicas na pele, especialmente no rosto, na nuca e/ou no coro cabeludo.",
-                 "Lúpus Discoide:"),
-                textWithSpan("Lúpus Sistêmico: esse tipo de lúpus é o mais comum e pode ser leve ou grave, conforme cada situação. Nessa forma da doença, a  inflamação acontece em todo o organismo da pessoa, o que compromete vários órgãos ou sistemas, além da pele, como rins, coração, pulmões,  sangue e articulações. Algumas pessoas que têm o lúpus discoide podem, eventualmente, evoluir para o lúpus sistêmico.",
-                    "Lúpus Sistêmico:"),
-                textWithSpan("Lúpus induzido por drogas: essa forma do lúpus também é comum e acontece porque substância de algumas drogas e/ou medicamentos podem provocar inflamação com sintomas parecidos com o lúpus sistêmico. No entanto, a doença, nesse caso, tende a desaparecer assim que o uso da  substância terminar.",
-                    "Lúpus induzido por drogas:"),
-                textWithSpan("Lúpus neonatal: esse tipo de lúpus é bastante raro e  afeta filhos recém-nascidos de mulheres que têm lúpus. Normalmente, ao  nascer, a criança pode ter erupções na pele, problemas no fígado ou  baixa contagem de células sanguíneas, mas esses sintomas tendem a  desaparecer naturalmente após alguns meses.",
-                    "Lúpus neonatal:")
+                textWithSpan(
+                    "Lúpus Discoide: esse tipo de lúpus fica limitado à pele  da pessoa. Pode ser identificado com o surgimento de lesões avermelhadas com tamanhos, formatos e colorações específicas na pele, especialmente no rosto, na nuca e/ou no coro cabeludo.",
+                    "Lúpus Discoide:"
+                ),
+                textWithSpan(
+                    "Lúpus Sistêmico: esse tipo de lúpus é o mais comum e pode ser leve ou grave, conforme cada situação. Nessa forma da doença, a  inflamação acontece em todo o organismo da pessoa, o que compromete vários órgãos ou sistemas, além da pele, como rins, coração, pulmões,  sangue e articulações. Algumas pessoas que têm o lúpus discoide podem, eventualmente, evoluir para o lúpus sistêmico.",
+                    "Lúpus Sistêmico:"
+                ),
+                textWithSpan(
+                    "Lúpus induzido por drogas: essa forma do lúpus também é comum e acontece porque substância de algumas drogas e/ou medicamentos podem provocar inflamação com sintomas parecidos com o lúpus sistêmico. No entanto, a doença, nesse caso, tende a desaparecer assim que o uso da  substância terminar.",
+                    "Lúpus induzido por drogas:"
+                ),
+                textWithSpan(
+                    "Lúpus neonatal: esse tipo de lúpus é bastante raro e  afeta filhos recém-nascidos de mulheres que têm lúpus. Normalmente, ao  nascer, a criança pode ter erupções na pele, problemas no fígado ou  baixa contagem de células sanguíneas, mas esses sintomas tendem a  desaparecer naturalmente após alguns meses.",
+                    "Lúpus neonatal:"
+                )
 
 
             )
@@ -86,12 +99,18 @@ fun LupusType() {
             items(treatmentMethodsList) { item ->
                 Row(
                     verticalAlignment = Alignment.Top,
-                    modifier = Modifier.padding(bottom = 24.dp)) {
-                    Text("•",
+                    modifier = Modifier.padding(bottom = 24.dp)
+                ) {
+                    Text(
+                        "•",
                         fontSize = 30.sp,
                         color = colorResource(id = R.color.purple_800),
-                        modifier = Modifier.padding(end = 8.dp)) // Marcador
-                    Text(item.text.highlightWord(targetWord = item.span, fontSize = 20.sp), fontSize = 16.sp)
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) // Marcador
+                    Text(
+                        item.text.highlightWord(targetWord = item.span, fontSize = 20.sp),
+                        fontSize = 16.sp
+                    )
                 }
             }
 
@@ -117,5 +136,5 @@ fun LupusType() {
 @Preview
 @Composable
 fun LupusTypePreview() {
-    LupusType()
+   // LupusType()
 }
