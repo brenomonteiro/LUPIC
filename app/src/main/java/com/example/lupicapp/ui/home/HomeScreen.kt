@@ -33,7 +33,7 @@ import com.example.lupicapp.R
 import com.example.lupicapp.model.GridItem
 
 val items = arrayOf(
-    GridItem("Medicamentos", R.drawable.medicamentos, "medicamentos"),
+    GridItem("Medicamentos", R.drawable.medicamentos, "stock"),
     GridItem("Sintomas", R.drawable.sintomas, "sintomas"),
     GridItem("Jornal", R.drawable.jornal, "jornal")
 )

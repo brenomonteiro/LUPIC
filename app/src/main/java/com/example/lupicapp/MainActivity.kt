@@ -1,5 +1,6 @@
 package com.example.lupicapp
 
+import Stok
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -97,6 +98,10 @@ fun AppNavigation() {
         }
         composable("journey") {
             PatientJourney(navController = navController,)
+        }
+
+        composable("Stock") {
+            Stok()
         }
     }
 }
