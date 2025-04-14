@@ -1,6 +1,8 @@
 package com.example.lupicapp
 
+import AddPill
 import Stok
+import StokEdit
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -97,11 +99,17 @@ fun AppNavigation() {
             Diagnostic(navController = navController)
         }
         composable("journey") {
-            PatientJourney(navController = navController,)
+            PatientJourney(navController = navController)
         }
 
         composable("Stock") {
-            Stok()
+            Stok(navController = navController)
+        }
+        composable("AddPill") {
+            AddPill(navController = navController)
+        }
+        composable("EditDrug") {
+            StokEdit(navController = navController)
         }
     }
 }
