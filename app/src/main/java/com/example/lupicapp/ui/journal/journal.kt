@@ -33,7 +33,7 @@ import coil.compose.AsyncImage
 import coil.size.Size
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
-import com.example.lupicapp.model.JornalItem
+import com.example.lupicapp.data.model.JornalItem
 import com.example.lupicapp.ui.home.HomeScreen
 import com.example.lupicapp.ui.login.LoginViewModel
 import org.koin.androidx.compose.koinViewModel

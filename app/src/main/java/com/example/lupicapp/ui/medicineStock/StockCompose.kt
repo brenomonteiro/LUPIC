@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,20 +31,19 @@ import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 //import com.example.lupic.R
 import com.example.lupicapp.R
-import com.example.lupicapp.model.DrugItem
-
-
-val drugsArray = arrayOf(
-    DrugItem("Enalapril", 2, 14),
-    DrugItem("Hidroxicloroquina", 1, 19),
-    DrugItem("Corticóide", 2, 50)
-)
-
+import com.example.lupicapp.data.model.DrugItem
+import com.example.lupicapp.ui.medicineStock.StockViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Stok(
-    navController: NavController
+    navController: NavController,
+    viewModel: StockViewModel = koinViewModel()
 ) {
+    val medicamentos = viewModel.medicamentos
+    LaunchedEffect(Unit) {
+        viewModel.carregarMedicamentos()
+    }
 
     AppScaffold(navController = navController,showBackArrow = true){ innerPadding, _ ->
         LazyColumn(
@@ -91,7 +91,7 @@ fun Stok(
                         Spacer(modifier = Modifier.height(10.dp))
 
                         // Lista de medicamentos
-                        for (item in drugsArray) {
+                        medicamentos.forEach {
 
                             Box(
                                 modifier = Modifier
@@ -115,7 +115,7 @@ fun Stok(
                                     ) {
 
                                         Text(
-                                            text = item.name,
+                                            text = it.name,
                                             fontSize = 20.sp,
                                             color = colorResource(id = R.color.purple_800),
                                             fontWeight = FontWeight.Bold,
@@ -124,7 +124,7 @@ fun Stok(
 
                                         Image(
                                             modifier = Modifier.clickable {
-                                                navController.navigate("EditDrug")
+                                                navController.navigate("editar_medicamento/${it.id}")
                                             },
                                             painter = painterResource(id = R.drawable.caneta_editar),
                                             contentDescription = "Imagem à esquerda",
@@ -148,7 +148,7 @@ fun Stok(
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Text(
-                                            text = "${item.pillsPerDay} comprimidos por dia",
+                                            text = "${it.pillsADay} comprimidos por dia",
                                             fontSize = 16.sp,
                                             color = Color.Black
                                         )
@@ -163,7 +163,7 @@ fun Stok(
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Text(
-                                            text = "${item.totalPills} comprimidos",
+                                            text = "${it.totalPills} comprimidos",
                                             fontSize = 16.sp,
                                             color = Color.Black
                                         )
@@ -178,7 +178,7 @@ fun Stok(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-                            .clickable {navController.navigate("AddPill")}
+                            .clickable { navController.navigate("AddPill") }
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.add),

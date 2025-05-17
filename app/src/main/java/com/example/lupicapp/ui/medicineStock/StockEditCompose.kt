@@ -1,4 +1,6 @@
+import android.util.Log
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,16 +20,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,14 +45,46 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
+import com.example.lupicapp.data.model.DrugItem
 import com.example.lupicapp.ui.jetpackComponents.CustomTextField
+import com.example.lupicapp.ui.medicineStock.AddPillViewModel
+import com.example.lupicapp.ui.medicineStock.StockEditViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun StokEdit(navController: NavController) {
-    AppScaffold(navController = navController,showBackArrow = true){innerPadding, _ ->
+fun StokEdit(
+    navController: NavController,
+    id: String,
+    viewModel: StockEditViewModel = koinViewModel()
+) {
+
+    val context = LocalContext.current
+
+    var totalPills by remember { mutableStateOf("") }
+    var pillsADay by remember { mutableStateOf("") }
+    var timesADay by remember { mutableStateOf("") }
+    var firstPeriod by remember { mutableStateOf("") }
+    var secondPeriod by remember { mutableStateOf("") }
+
+    val medicamento = viewModel.medicamento
+    LaunchedEffect(medicamento) {
+        viewModel.carregarMedicamento(id)
+        medicamento?.let {
+            totalPills = it.totalPills
+            pillsADay = it.pillsADay
+            timesADay = it.timesADay
+            firstPeriod = it.firstPeriod
+            secondPeriod = it.secondPeriod
+        }    }
+
+
+
+
+    AppScaffold(navController = navController, showBackArrow = true) { innerPadding, _ ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -52,40 +94,30 @@ fun StokEdit(navController: NavController) {
                 end = 16.dp,
                 top = innerPadding.calculateTopPadding(),
                 bottom = innerPadding.calculateBottomPadding()
-            )        ) {
+            )
+        ) {
             item {
                 Text(
                     modifier = Modifier.padding(bottom = 16.dp),
-                    text = "Enalapril",
+                    text = medicamento?.name ?: "",
                     fontSize = 25.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
             }
             item {
-                Row(
-                    verticalAlignment = Alignment.Top,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            colorResource(id = R.color.purple_100),
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .padding(16.dp)
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 6.dp
+                    ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = colorResource(id = R.color.purple_100) // cor de fundo do Card
+                    ),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column(
-                        // verticalArrangement = Arrangement.Center
-                        // modifier = Modifier.
-                        //.fillMaxSize()
-//                        .background(
-//                            colorResource(id = R.color.purple_100),
-//                            shape = RoundedCornerShape(12.dp)
-//                        )
-                        //.padding(start = 34.dp, end = 16.dp)
-                    ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            //modifier = Modifier.padding(top = 16.dp)
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.caixa_estoque),
@@ -101,27 +133,17 @@ fun StokEdit(navController: NavController) {
                                 fontWeight = FontWeight.Bold
                             )
                         }
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                        Row(
-                            modifier = Modifier.padding(top = 16.dp)
-
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.comprimido),
-                                contentDescription = "Imagem à esquerda",
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = "14 comprimidos",
-                                fontSize = 16.sp,
-                                color = Color.Black
-                            )
-                        }
+                        OutlinedTextField(
+                            value = totalPills?: "",
+                            onValueChange = { totalPills = it },
+                            label = { Text("Comprimidos") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                        )
                     }
-                    Spacer(modifier = Modifier.width(20.dp))
-
-                    CustomTextField(Modifier.fillMaxSize())
-
                 }
 
             }
@@ -145,25 +167,55 @@ fun StokEdit(navController: NavController) {
                         fontWeight = FontWeight.Bold
                     )
 
-                    CustomTextField(Modifier.fillMaxSize())
+                    OutlinedTextField(
+                        value = pillsADay?: "",
+                        onValueChange = { pillsADay = it },
+                        label = { Text("Comprimidos por dose") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
-                    CustomTextField(Modifier.fillMaxSize())
+                    OutlinedTextField(
+                        value = timesADay?: "",
+                        onValueChange = { timesADay = it },
+                        label = { Text("Vezes ao dia") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(
-                            top = 8.dp,
-                            start = 16.dp
-                        )
                     ) {
-                        Text(
-                            text = "1 dose",
-                            Modifier.weight(1f)
-                        )
-                        CustomTextField(
+
+                        Text(text = "1ª dose")
+                        Spacer(modifier = Modifier.width(118.dp))
+                        OutlinedTextField(
+                            value = firstPeriod?: "",
+                            onValueChange = { firstPeriod = it },
+                            label = { Text("Horário") },
                             modifier = Modifier
-                                .weight(1f)
-                                .fillMaxSize()
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
                         )
+
+                    }
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+
+                        Text(text = "2ª dose")
+                        Spacer(modifier = Modifier.width(118.dp))
+                        OutlinedTextField(
+                            value = secondPeriod?: "",
+                            onValueChange = { secondPeriod = it },
+                            label = { Text("Horário") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                        )
+
                     }
 
 
@@ -171,9 +223,30 @@ fun StokEdit(navController: NavController) {
             }
             item {
                 Button(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .padding(top = 16.dp),
-                    onClick = { /* Ação ao clicar */ }
+                    onClick = {
+
+                        medicamento?.let {
+                            it.totalPills = totalPills
+                            it.pillsADay = pillsADay
+                            it.timesADay = timesADay
+                            it.firstPeriod = firstPeriod
+                            it.secondPeriod = secondPeriod
+
+                            viewModel.editarMedicamento(id){ sucesso ->
+                                if (sucesso) {
+                                    Toast.makeText(context, "Medicamento atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+                                    navController.popBackStack()
+                                } else {
+                                    Toast.makeText(context, "Erro ao atualizar medicamento.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+
+                    }, shape = RoundedCornerShape(5.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.purple_800))
                 ) {
                     Text(text = "Salvar")
                 }

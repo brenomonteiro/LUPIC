@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
-import com.example.lupicapp.model.textWithSpan
+import com.example.lupicapp.data.model.textWithSpan
 
 @Composable
 fun PatientJourney(

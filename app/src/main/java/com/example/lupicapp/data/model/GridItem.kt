@@ -1,4 +1,4 @@
-package com.example.lupicapp.model
+package com.example.lupicapp.data.model
 
 data class GridItem(
     val title: String,

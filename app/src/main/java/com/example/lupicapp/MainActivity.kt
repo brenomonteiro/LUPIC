@@ -14,9 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.lupicapp.ui.home.HomeScreen
 import com.example.lupicapp.ui.journal.Diagnostic
 import com.example.lupicapp.ui.journal.Journal
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 fun AppNavigation() {
     val navController: NavHostController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "welcome") {
 
         composable("welcome") {
             Welcome(
@@ -105,28 +107,18 @@ fun AppNavigation() {
         composable("Stock") {
             Stok(navController = navController)
         }
+
         composable("AddPill") {
             AddPill(navController = navController)
         }
-        composable("EditDrug") {
-            StokEdit(navController = navController)
+        composable(route = "editar_medicamento/{medicamentoId}",
+            arguments = listOf(navArgument("medicamentoId"){
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("medicamentoId") ?: ""
+
+            StokEdit(navController = navController, id = id)
         }
-    }
-}
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LupicappTheme {
-        Greeting("Android")
     }
 }

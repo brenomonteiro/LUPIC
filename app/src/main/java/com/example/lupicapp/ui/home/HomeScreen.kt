@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
-import com.example.lupicapp.model.GridItem
+import com.example.lupicapp.data.model.GridItem
 
 val items = arrayOf(
     GridItem("Medicamentos", R.drawable.medicamentos, "stock"),

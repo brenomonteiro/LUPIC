@@ -7,12 +7,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lupicapp.GoogleAuthClient
+import com.example.lupicapp.data.model.User
+import com.example.lupicapp.data.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val firebaseAuth: FirebaseAuth,
-    private val googleAuthClient: GoogleAuthClient
+    private val googleAuthClient: GoogleAuthClient,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     var loginState = mutableStateOf<LoginResult>(LoginResult.Idle)
         private set
@@ -55,6 +59,7 @@ class LoginViewModel(
 
     fun signInWithGoogle(intent: Intent?, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
+            userRepository.salvarUsuarioLogado()
             val user = googleAuthClient.signInWithIntent(intent)
             onResult(user != null)
         }

@@ -13,17 +13,22 @@ import androidx.compose.ui.unit.dp
 import com.example.lupicapp.R
 
 @Composable
-fun CustomTextField(modifier: Modifier) {
+fun CustomTextField(modifier: Modifier, label: String = "Pesquisar", rightIcon: Int? = null) {
     TextField(
         value = "",
         onValueChange = {},
-        label = { Text("Pesquisar") },
+        label = { Text(label) },
         trailingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.add_roxo),
-                contentDescription = "Ícone de pesquisa",
-                modifier = Modifier.size(24.dp) // Ajusta o tamanho do ícone
-            )
+            rightIcon?.let {
+                Icon(
+                    //R.drawable.add_roxo
+                    //painter = painterResource(id = R.drawable.add_roxo),
+                    painter = painterResource(id = rightIcon),
+                    contentDescription = "Ícone de pesquisa",
+                    modifier = Modifier.size(24.dp) // Ajusta o tamanho do ícone
+                )
+            }
+
         },
         modifier = modifier,
         colors = TextFieldDefaults.colors(

@@ -3,6 +3,8 @@ package com.example.lupicapp
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.util.Log
+import com.example.lupicapp.data.model.User
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
@@ -41,6 +43,9 @@ class GoogleAuthClient(
         return if (idToken != null) {
             val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
             firebaseAuth.signInWithCredential(firebaseCredential).await().user
+
+
+
         } else null
     }
 
