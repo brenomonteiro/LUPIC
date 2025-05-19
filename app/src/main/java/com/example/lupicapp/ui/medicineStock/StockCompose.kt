@@ -1,3 +1,4 @@
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,13 +15,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,12 +45,14 @@ fun Stok(
     navController: NavController,
     viewModel: StockViewModel = koinViewModel()
 ) {
-    val medicamentos = viewModel.medicamentos
+    // val medicamentos = viewModel.medicamentos
+    val medicamentos by viewModel.medicamentos.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.carregarMedicamentos()
     }
+    val context = LocalContext.current
 
-    AppScaffold(navController = navController,showBackArrow = true){ innerPadding, _ ->
+    AppScaffold(navController = navController, showBackArrow = true) { innerPadding, _ ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -57,7 +64,96 @@ fun Stok(
                 bottom = innerPadding.calculateBottomPadding()
             )
         ) {
+
+
+            /**  items(medicamentos){
+
+            Box(
+            modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .background(
+            color = colorResource(id = R.color.formulario),
+            shape = RoundedCornerShape(14.dp)
+            )
+            ) {
+            Column(
+            Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+            ) {
+            // Nome do medicamento
+
+            Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+            Text(
+            text = it.name,
+            fontSize = 20.sp,
+            color = colorResource(id = R.color.purple_800),
+            fontWeight = FontWeight.Bold,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+
+            Image(
+            modifier = Modifier.clickable {
+            navController.navigate("editar_medicamento/${it.id}")
+            },
+            painter = painterResource(id = R.drawable.caneta_editar),
+            contentDescription = "Imagem à esquerda",
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Image(
+            modifier = Modifier.clickable {
+            viewModel.removerMedicamento(it.id) {
+            }
+            },
+            painter = painterResource(id = R.drawable.lixeira),
+            contentDescription = "Imagem à esquerda",
+            )
+
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Informações do medicamento
+
+            Row {
+            Image(
+            painter = painterResource(id = R.drawable.comprimido),
+            contentDescription = "Imagem à esquerda",
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+            text = "${it.pillsADay} comprimidos por dia",
+            fontSize = 16.sp,
+            color = Color.Black
+            )
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Row {
+            Image(
+            painter = painterResource(id = R.drawable.caixa_estoque),
+            contentDescription = "Imagem à esquerda",
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+            text = "${it.totalPills} comprimidos",
+            fontSize = 16.sp,
+            color = Color.Black
+            )
+            }
+
+            }
+            }
+            }**/
+
             item {
+
                 Column(
                     modifier = Modifier
                         //.fillMaxSize()
@@ -131,6 +227,24 @@ fun Stok(
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Image(
+                                            modifier = Modifier.clickable {
+                                                viewModel.removerMedicamento(it.id) {
+                                                    if (it) {
+                                                        viewModel.carregarMedicamentos()
+                                                        Toast.makeText(
+                                                            context,
+                                                            "Removido com sucesso!",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    } else {
+                                                        Toast.makeText(
+                                                            context,
+                                                            "falha ao excluir",
+                                                            Toast.LENGTH_SHORT
+                                                        )
+                                                    }
+                                                }
+                                            },
                                             painter = painterResource(id = R.drawable.lixeira),
                                             contentDescription = "Imagem à esquerda",
                                         )
@@ -198,5 +312,5 @@ fun Stok(
 @Preview(showBackground = true)
 @Composable
 fun previewstok() {
-   // Stok()
+    // Stok()
 }

@@ -44,16 +44,16 @@ class UserRepository(
                 medicamento?.let {
                     lista.add(it)
                 }
-                callback(lista)
-
 
             }
+            callback(lista)
+        }.addOnFailureListener {
+
         }
-
-
     }
 
-    fun salvarMedicamento(medicamento: DrugItem, callback: (Boolean) -> Unit){
+
+    fun salvarMedicamento(medicamento: DrugItem, callback: (Boolean) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid ?: return
         val reference =
             firebaseDatabase.reference
@@ -67,6 +67,5 @@ class UserRepository(
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
-
 
 }

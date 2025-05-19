@@ -22,7 +22,7 @@ val appModule = module {
     single { UserRepository(get(), get()) }
     single { MedicamentoRepository(get(),get()) }
 
-    viewModel { StockViewModel(get()) }
+    viewModel { StockViewModel(get(),get()) }
     viewModel { UserViewModel(get()) }
     viewModel { LoginViewModel(get(), get(), get()) }
     viewModel { UserRegisterViewModel(get()) }
