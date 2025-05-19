@@ -6,11 +6,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class UserRepository(
-    private val firebaseAuth: FirebaseAuth, private val firebaseDatabase: FirebaseDatabase
+    private val firebaseAuth: FirebaseAuth,
+    private val firebaseDatabase: FirebaseDatabase
 ) {
 
     fun salvarUsuarioLogado(onResult: (Boolean, User?) -> Unit) {
-
         val firebaseUser = firebaseAuth.currentUser
 
         if (firebaseUser == null) {
@@ -24,21 +24,21 @@ class UserRepository(
             if (it.exists()) {
                 val usuario = it.getValue(User::class.java)
                 onResult(true, usuario)
-            }else{
-
+            } else {
                 val usuario = User(
-                    id = firebaseUser.uid, nome = firebaseUser.displayName ?: "", email = firebaseUser.email ?: ""
+                    id = firebaseUser.uid,
+                    nome = firebaseUser.displayName ?: "",
+                    email = firebaseUser.email ?: ""
                 )
 
                 refUser.setValue(usuario).addOnCompleteListener {
-                    if (it.isSuccessful){
+                    if (it.isSuccessful) {
                         onResult(true, usuario)
-                    }else{
-                        onResult(false,null)
+                    } else {
+                        onResult(false, null)
                     }
                 }
             }
-
         }.addOnFailureListener {
             onResult(false, null)
         }
@@ -47,12 +47,13 @@ class UserRepository(
     fun getUsuarioAtual(): User? {
         val user = firebaseAuth.currentUser ?: return null
         return User(
-            id = user.uid, nome = user.displayName ?: "", email = user.email ?: ""
+            id = user.uid,
+            nome = user.displayName ?: "",
+            email = user.email ?: ""
         )
     }
 
     fun recuperarMedicamentos(callback: (List<DrugItem>) -> Unit) {
-
         val uid = firebaseAuth.currentUser?.uid ?: return
         val reference =
             firebaseDatabase.reference
@@ -66,14 +67,11 @@ class UserRepository(
                 medicamento?.let {
                     lista.add(it)
                 }
-
             }
             callback(lista)
         }.addOnFailureListener {
-
         }
     }
-
 
     fun salvarMedicamento(medicamento: DrugItem, callback: (Boolean) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid ?: return
@@ -88,5 +86,4 @@ class UserRepository(
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
-
 }

@@ -7,10 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lupicapp.GoogleAuthClient
-import com.example.lupicapp.data.model.User
 import com.example.lupicapp.data.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -25,16 +23,13 @@ class LoginViewModel(
         viewModelScope.launch {
             loginState.value = LoginResult.Loading
 
-            //val result = authRepository.signIn(email, password)
-           // loginState.value = result
+            // val result = authRepository.signIn(email, password)
+            // loginState.value = result
             Log.i("credenciais", "$email $password")
         }
-
-
     }
 
     fun login(email: String, password: String) {
-
         viewModelScope.launch {
             loginState.value = LoginResult.Loading
             try {
@@ -56,12 +51,10 @@ class LoginViewModel(
         return googleAuthClient.signIn()
     }
 
-
     fun signInWithGoogle(intent: Intent?, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
-
             val user = googleAuthClient.signInWithIntent(intent)
-            userRepository.salvarUsuarioLogado(){ sucesso, usuario ->
+            userRepository.salvarUsuarioLogado { sucesso, usuario ->
                 if (sucesso && usuario != null) {
                     onResult(true)
                 } else {
@@ -74,7 +67,6 @@ class LoginViewModel(
     fun signOut() {
         googleAuthClient.signOut()
     }
-
 }
 
 // Estados possíveis do login

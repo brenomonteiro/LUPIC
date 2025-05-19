@@ -5,10 +5,10 @@ import com.example.lupicapp.data.repository.UserRepository
 
 class UserViewModel(
     private val repository: UserRepository
-): ViewModel() {
+) : ViewModel() {
 
-    fun salvarUsuario(){
-       // repository.salvarUsuarioLogado()
+    fun salvarUsuario() {
+        // repository.salvarUsuarioLogado()
     }
 
     fun getUsuarioLogado() = repository.getUsuarioAtual()

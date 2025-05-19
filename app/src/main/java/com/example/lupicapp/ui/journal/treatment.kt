@@ -16,10 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,7 +53,7 @@ fun Treatment(
 
                 val text =
                     "O tratamento do Lúpus, assim como para outras  doenças crônicas como câncer, hipertensão e diabetes, é mais paliativo e  tem por objetivo controlar os sintomas, melhorando a qualidade de vida  da pessoa. Isso porque, até o momento, Lúpus não tem cura.\n" +
-                            "O tratamento é diferenciado para cada caso, conforme os níveis de intensidade e agressividade da doença."
+                        "O tratamento é diferenciado para cada caso, conforme os níveis de intensidade e agressividade da doença."
 
                 Text(
                     text = text.highlightWord(
@@ -143,14 +140,12 @@ fun Treatment(
                     )
                 }
             }
-
         }
-
     }
 }
 
 @Preview
 @Composable
 fun treatmentPreview() {
-    //Treatment()
+    // Treatment()
 }

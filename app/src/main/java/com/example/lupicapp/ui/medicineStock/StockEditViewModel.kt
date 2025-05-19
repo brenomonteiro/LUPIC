@@ -13,21 +13,19 @@ class StockEditViewModel(private val repository: MedicamentoRepository) : ViewMo
     var medicamento by mutableStateOf<DrugItem?>(null)
         private set
 
-    fun carregarMedicamento(id: String){
-//medicamentos = callback
-        repository.buscarMedicamentosPorId(id){
+    fun carregarMedicamento(id: String) {
+// medicamentos = callback
+        repository.buscarMedicamentosPorId(id) {
             Log.i("objeto carregado  funcao", it.toString())
             medicamento = it
         }
     }
 
-
 //    fun editarMedicamento(id:String,drugItem: DrugItem){
 //        repository.atualizarMedicamento(id, drugItem)
 //    }
 
-    fun editarMedicamento(id:String,callback: (Boolean) -> Unit){
-        repository.atualizarMedicamento(id, medicamento!!,callback )
+    fun editarMedicamento(id: String, callback: (Boolean) -> Unit) {
+        repository.atualizarMedicamento(id, medicamento!!, callback)
     }
-
 }

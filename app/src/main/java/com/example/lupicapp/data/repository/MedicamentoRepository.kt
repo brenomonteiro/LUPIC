@@ -11,7 +11,6 @@ class MedicamentoRepository(
 ) {
     val uid = firebaseAuth.currentUser?.uid ?: ""
 
-
     private val db = firebaseDatabase.reference.child("usuarios")
         .child(uid)
         .child("medicamentos")
@@ -20,7 +19,6 @@ class MedicamentoRepository(
         db.child(id).get().addOnSuccessListener { dataSnapshot ->
             val medicamento = dataSnapshot.getValue(DrugItem::class.java)
             callback(medicamento)
-
         }.addOnFailureListener {
             callback(null)
         }
@@ -46,6 +44,5 @@ class MedicamentoRepository(
 
             callback(false)
         }
-
     }
 }

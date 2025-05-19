@@ -50,7 +50,6 @@ fun AddPill(
     navController: NavController?,
     viewModel: AddPillViewModel = koinViewModel()
 ) {
-
     val nome = remember {
         mutableStateOf("")
     }
@@ -71,7 +70,8 @@ fun AddPill(
     }
 
     AppScaffold(
-        navController = navController, showBackArrow = true
+        navController = navController,
+        showBackArrow = true
     ) { innerPadding, _ ->
 
         LazyColumn(
@@ -86,7 +86,7 @@ fun AddPill(
                 bottom = innerPadding.calculateBottomPadding()
             ),
 
-            ) {
+        ) {
             item {
                 Text(
                     modifier = Modifier.padding(bottom = 16.dp, top = 28.dp),
@@ -98,7 +98,6 @@ fun AddPill(
             }
 
             item {
-
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 6.dp
@@ -111,7 +110,7 @@ fun AddPill(
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            //modifier = Modifier.padding(top = 16.dp)
+                            // modifier = Modifier.padding(top = 16.dp)
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.medicine),
@@ -138,16 +137,11 @@ fun AddPill(
                                 .padding(vertical = 8.dp)
                         )
                     }
-
-
                 }
-
-
             }
             item { Spacer(modifier = Modifier.height(28.dp)) }
 
             item {
-
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 6.dp
@@ -196,7 +190,6 @@ fun AddPill(
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-
                             Text(text = "1ª dose")
                             Spacer(modifier = Modifier.width(118.dp))
                             OutlinedTextField(
@@ -207,12 +200,10 @@ fun AddPill(
                                     .fillMaxWidth()
                                     .padding(vertical = 8.dp)
                             )
-
                         }
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-
                             Text(text = "2ª dose")
                             Spacer(modifier = Modifier.width(118.dp))
                             OutlinedTextField(
@@ -223,21 +214,14 @@ fun AddPill(
                                     .fillMaxWidth()
                                     .padding(vertical = 8.dp)
                             )
-
                         }
-
                     }
-
-
                 }
-
-
             }
 
             item { Spacer(modifier = Modifier.height(28.dp)) }
 
             item {
-
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 6.dp
@@ -328,7 +312,6 @@ fun AddPill(
                         .fillMaxSize()
                         .padding(top = 16.dp),
                     onClick = {
-
                         viewModel.salvarMedicamento(
                             DrugItem(
                                 name = nome.value,
@@ -339,18 +322,15 @@ fun AddPill(
                                 totalPills = total.value
                             )
                         ) { Log.i("salvadooo", "salvo com sucesso") }
-
-
-                    }, shape = RoundedCornerShape(5.dp),
+                    },
+                    shape = RoundedCornerShape(5.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.purple_800))
                 ) {
                     Text(text = "Salvar")
                 }
-
             }
         }
     }
-
 
 //    AppScaffold(navController = navController, showBackArrow = true) { innerPadding, _ ->
 //        LazyColumn(
@@ -388,10 +368,10 @@ fun AddPill(
 //                        // verticalArrangement = Arrangement.Center
 //                        // modifier = Modifier.
 //                        //.fillMaxSize()
-////                        .background(
-////                            colorResource(id = R.color.purple_100),
-////                            shape = RoundedCornerShape(12.dp)
-////                        )
+// //                        .background(
+// //                            colorResource(id = R.color.purple_100),
+// //                            shape = RoundedCornerShape(12.dp)
+// //                        )
 //                        //.padding(start = 34.dp, end = 16.dp)
 //                    ) {
 //                        Row(
@@ -493,16 +473,13 @@ fun AddPill(
 //            }
 //        }
 //    }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun previewPill() {
-    //AddPill(null)
+    // AddPill(null)
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -510,17 +487,15 @@ fun previewCard() {
     // ElevatedCardExample()
 }
 
-
-//.fillMaxSize()
-//.background(
-//colorResource(id = R.color.purple_100),
-//shape = RoundedCornerShape(12.dp)
-//)
-//.padding(16.dp)
+// .fillMaxSize()
+// .background(
+// colorResource(id = R.color.purple_100),
+// shape = RoundedCornerShape(12.dp)
+// )
+// .padding(16.dp)
 
 @Composable
 fun ElevatedCardExample(value: String) {
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

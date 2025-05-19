@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,9 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
-//import com.example.lupic.R
+// import com.example.lupic.R
 import com.example.lupicapp.R
-import com.example.lupicapp.data.model.DrugItem
 import com.example.lupicapp.ui.medicineStock.StockViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -64,104 +62,101 @@ fun Stok(
                 bottom = innerPadding.calculateBottomPadding()
             )
         ) {
-
-
             /**  items(medicamentos){
 
-            Box(
-            modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .background(
-            color = colorResource(id = R.color.formulario),
-            shape = RoundedCornerShape(14.dp)
-            )
-            ) {
-            Column(
-            Modifier
-            .padding(16.dp)
-            .fillMaxSize()
-            ) {
-            // Nome do medicamento
+             Box(
+             modifier = Modifier
+             .fillMaxWidth()
+             .padding(8.dp)
+             .background(
+             color = colorResource(id = R.color.formulario),
+             shape = RoundedCornerShape(14.dp)
+             )
+             ) {
+             Column(
+             Modifier
+             .padding(16.dp)
+             .fillMaxSize()
+             ) {
+             // Nome do medicamento
 
-            Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+             Row(
+             modifier = Modifier.fillMaxWidth(),
+             horizontalArrangement = Arrangement.SpaceBetween
+             ) {
 
-            Text(
-            text = it.name,
-            fontSize = 20.sp,
-            color = colorResource(id = R.color.purple_800),
-            fontWeight = FontWeight.Bold,
-            )
-            Spacer(modifier = Modifier.weight(1f))
+             Text(
+             text = it.name,
+             fontSize = 20.sp,
+             color = colorResource(id = R.color.purple_800),
+             fontWeight = FontWeight.Bold,
+             )
+             Spacer(modifier = Modifier.weight(1f))
 
-            Image(
-            modifier = Modifier.clickable {
-            navController.navigate("editar_medicamento/${it.id}")
-            },
-            painter = painterResource(id = R.drawable.caneta_editar),
-            contentDescription = "Imagem à esquerda",
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Image(
-            modifier = Modifier.clickable {
-            viewModel.removerMedicamento(it.id) {
-            }
-            },
-            painter = painterResource(id = R.drawable.lixeira),
-            contentDescription = "Imagem à esquerda",
-            )
+             Image(
+             modifier = Modifier.clickable {
+             navController.navigate("editar_medicamento/${it.id}")
+             },
+             painter = painterResource(id = R.drawable.caneta_editar),
+             contentDescription = "Imagem à esquerda",
+             )
+             Spacer(modifier = Modifier.width(8.dp))
+             Image(
+             modifier = Modifier.clickable {
+             viewModel.removerMedicamento(it.id) {
+             }
+             },
+             painter = painterResource(id = R.drawable.lixeira),
+             contentDescription = "Imagem à esquerda",
+             )
 
-            }
+             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+             Spacer(modifier = Modifier.height(8.dp))
 
-            // Informações do medicamento
+             // Informações do medicamento
 
-            Row {
-            Image(
-            painter = painterResource(id = R.drawable.comprimido),
-            contentDescription = "Imagem à esquerda",
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-            text = "${it.pillsADay} comprimidos por dia",
-            fontSize = 16.sp,
-            color = Color.Black
-            )
-            }
+             Row {
+             Image(
+             painter = painterResource(id = R.drawable.comprimido),
+             contentDescription = "Imagem à esquerda",
+             )
+             Spacer(modifier = Modifier.width(8.dp))
+             Text(
+             text = "${it.pillsADay} comprimidos por dia",
+             fontSize = 16.sp,
+             color = Color.Black
+             )
+             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+             Spacer(modifier = Modifier.height(4.dp))
 
-            Row {
-            Image(
-            painter = painterResource(id = R.drawable.caixa_estoque),
-            contentDescription = "Imagem à esquerda",
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-            text = "${it.totalPills} comprimidos",
-            fontSize = 16.sp,
-            color = Color.Black
-            )
-            }
+             Row {
+             Image(
+             painter = painterResource(id = R.drawable.caixa_estoque),
+             contentDescription = "Imagem à esquerda",
+             )
+             Spacer(modifier = Modifier.width(8.dp))
+             Text(
+             text = "${it.totalPills} comprimidos",
+             fontSize = 16.sp,
+             color = Color.Black
+             )
+             }
 
-            }
-            }
-            }**/
+             }
+             }
+             }**/
 
             item {
-
                 Column(
                     modifier = Modifier
-                        //.fillMaxSize()
+                        // .fillMaxSize()
                         .background(
                             colorResource(id = R.color.purple_100),
                             shape = RoundedCornerShape(12.dp)
                         )
-                    //.padding(start = 34.dp, end = 16.dp)
+                    // .padding(start = 34.dp, end = 16.dp)
                 ) {
                     Column(Modifier.padding(start = 16.dp, end = 16.dp)) {
                         Row(
@@ -188,7 +183,6 @@ fun Stok(
 
                         // Lista de medicamentos
                         medicamentos.forEach {
-
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -209,7 +203,6 @@ fun Stok(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.SpaceBetween
                                     ) {
-
                                         Text(
                                             text = it.name,
                                             fontSize = 20.sp,
@@ -248,7 +241,6 @@ fun Stok(
                                             painter = painterResource(id = R.drawable.lixeira),
                                             contentDescription = "Imagem à esquerda",
                                         )
-
                                     }
 
                                     Spacer(modifier = Modifier.height(8.dp))
@@ -282,7 +274,6 @@ fun Stok(
                                             color = Color.Black
                                         )
                                     }
-
                                 }
                             }
                         }
@@ -301,12 +292,10 @@ fun Stok(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(text = "Adicionar medicamento", fontSize = 12.sp)
                     }
-
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

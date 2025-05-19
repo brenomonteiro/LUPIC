@@ -1,10 +1,6 @@
-import android.util.Log
-import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,17 +13,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -41,7 +32,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,9 +39,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
-import com.example.lupicapp.data.model.DrugItem
-import com.example.lupicapp.ui.jetpackComponents.CustomTextField
-import com.example.lupicapp.ui.medicineStock.AddPillViewModel
 import com.example.lupicapp.ui.medicineStock.StockEditViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -61,7 +48,6 @@ fun StokEdit(
     id: String,
     viewModel: StockEditViewModel = koinViewModel()
 ) {
-
     val context = LocalContext.current
 
     var totalPills by remember { mutableStateOf("") }
@@ -79,10 +65,8 @@ fun StokEdit(
             timesADay = it.timesADay
             firstPeriod = it.firstPeriod
             secondPeriod = it.secondPeriod
-        }    }
-
-
-
+        }
+    }
 
     AppScaffold(navController = navController, showBackArrow = true) { innerPadding, _ ->
         LazyColumn(
@@ -136,7 +120,7 @@ fun StokEdit(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         OutlinedTextField(
-                            value = totalPills?: "",
+                            value = totalPills ?: "",
                             onValueChange = { totalPills = it },
                             label = { Text("Comprimidos") },
                             modifier = Modifier
@@ -145,7 +129,6 @@ fun StokEdit(
                         )
                     }
                 }
-
             }
 
             item {
@@ -162,13 +145,14 @@ fun StokEdit(
                 ) {
                     Text(
                         modifier = Modifier.padding(bottom = 16.dp),
-                        text = "Posologia", fontSize = 20.sp,
+                        text = "Posologia",
+                        fontSize = 20.sp,
                         color = Color.Black,
                         fontWeight = FontWeight.Bold
                     )
 
                     OutlinedTextField(
-                        value = pillsADay?: "",
+                        value = pillsADay ?: "",
                         onValueChange = { pillsADay = it },
                         label = { Text("Comprimidos por dose") },
                         modifier = Modifier
@@ -177,7 +161,7 @@ fun StokEdit(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
-                        value = timesADay?: "",
+                        value = timesADay ?: "",
                         onValueChange = { timesADay = it },
                         label = { Text("Vezes ao dia") },
                         modifier = Modifier
@@ -187,38 +171,32 @@ fun StokEdit(
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-
                         Text(text = "1ª dose")
                         Spacer(modifier = Modifier.width(118.dp))
                         OutlinedTextField(
-                            value = firstPeriod?: "",
+                            value = firstPeriod ?: "",
                             onValueChange = { firstPeriod = it },
                             label = { Text("Horário") },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp)
                         )
-
                     }
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-
                         Text(text = "2ª dose")
                         Spacer(modifier = Modifier.width(118.dp))
                         OutlinedTextField(
-                            value = secondPeriod?: "",
+                            value = secondPeriod ?: "",
                             onValueChange = { secondPeriod = it },
                             label = { Text("Horário") },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp)
                         )
-
                     }
-
-
                 }
             }
             item {
@@ -227,7 +205,6 @@ fun StokEdit(
                         .fillMaxSize()
                         .padding(top = 16.dp),
                     onClick = {
-
                         medicamento?.let {
                             it.totalPills = totalPills
                             it.pillsADay = pillsADay
@@ -235,32 +212,32 @@ fun StokEdit(
                             it.firstPeriod = firstPeriod
                             it.secondPeriod = secondPeriod
 
-                            viewModel.editarMedicamento(id){ sucesso ->
+                            viewModel.editarMedicamento(id) { sucesso ->
                                 if (sucesso) {
-                                    Toast.makeText(context, "Medicamento atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Medicamento atualizado com sucesso!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     navController.popBackStack()
                                 } else {
                                     Toast.makeText(context, "Erro ao atualizar medicamento.", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
-
-                    }, shape = RoundedCornerShape(5.dp),
+                    },
+                    shape = RoundedCornerShape(5.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.purple_800))
                 ) {
                     Text(text = "Salvar")
                 }
-
             }
         }
-
-
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
 fun previewstokEdit() {
-    //StokEdit()
+    // StokEdit()
 }

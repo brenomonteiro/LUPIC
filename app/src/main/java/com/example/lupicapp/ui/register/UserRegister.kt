@@ -1,21 +1,26 @@
 package com.example.lupicapp.ui.register
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,36 +30,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
-import com.example.lupicapp.composeComponents.CheckboxAndTextRow
 import com.example.lupicapp.ui.login.LoginResult
 import org.koin.androidx.compose.koinViewModel
-
 
 @Composable
 fun UserRegister(
     viewModel: UserRegisterViewModel = koinViewModel(),
-    navController: NavController,// Aqui está a correção
+    navController: NavController, // Aqui está a correção
     onLoginSuccess: () -> Unit
 ) {
     val email by viewModel.email.collectAsState()
@@ -70,11 +59,7 @@ fun UserRegister(
     val loginState by viewModel.loginState.collectAsState()
     val loadState by viewModel.loadState
 
-
-
-
     Box(modifier = Modifier.fillMaxSize()) {
-
         AppScaffold(showTopBar = false) { innerPadding, snackbarHostState ->
             LazyColumn(
                 // horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,26 +70,27 @@ fun UserRegister(
             ) {
                 item {
                     when (val state = loginState) {
-                    is LoginResult.Error -> {
-                        LaunchedEffect(state) {
-                            snackbarHostState.showSnackbar(
-                                message = "Erro: ${state.message}",
-                                duration = SnackbarDuration.Short
-                            )
+                        is LoginResult.Error -> {
+                            LaunchedEffect(state) {
+                                snackbarHostState.showSnackbar(
+                                    message = "Erro: ${state.message}",
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
                         }
-                    }
 
-                    is LoginResult.Success -> {
-                        LaunchedEffect(Unit) {
-                            navController.navigate("home"){
-                                popUpTo("register") { inclusive = true }
-                                popUpTo("welcome") { inclusive = true }
-                            } // Redireciona para a tela home após o login
+                        is LoginResult.Success -> {
+                            LaunchedEffect(Unit) {
+                                navController.navigate("home") {
+                                    popUpTo("register") { inclusive = true }
+                                    popUpTo("welcome") { inclusive = true }
+                                } // Redireciona para a tela home após o login
+                            }
                         }
-                    }
 
-                    else -> {}
-                } }
+                        else -> {}
+                    }
+                }
 
                 item {
                     Text(
@@ -133,7 +119,7 @@ fun UserRegister(
                         value = email,
                         onValueChange = {
                             viewModel.onEmailChange(it)
-                            //emailError = it.isBlank() // Marca erro se estiver vazio
+                            // emailError = it.isBlank() // Marca erro se estiver vazio
                         },
                         placeholder = { Text(text = "Digite seu e-mail") },
                         supportingText = {
@@ -176,7 +162,6 @@ fun UserRegister(
                     )
                 }
 
-
                 item {
                     var passwordVisible1 by remember { mutableStateOf(false) }
 
@@ -190,9 +175,9 @@ fun UserRegister(
                         modifier = Modifier.fillMaxWidth(),
                         value = password ?: "",
                         onValueChange = {
-                            //password = it
+                            // password = it
                             viewModel.onPasswordChange(it)
-                            //passwordError = it.isBlank()
+                            // passwordError = it.isBlank()
                         },
                         placeholder = { Text(text = "Digite sua senha") },
                         isError = passwordError, // Aplica erro visual
@@ -217,7 +202,6 @@ fun UserRegister(
                         },
                     )
                 }
-
 
                 item {
                     var passwordVisible by remember { mutableStateOf(false) }
@@ -260,17 +244,18 @@ fun UserRegister(
                     Button(
                         onClick = {
                             viewModel.registerUser()
-                            //viewModel.registerUser()
+                            // viewModel.registerUser()
                         },
                         shape = RoundedCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.purple_800)), // Fundo branco
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(id = R.color.purple_800)
+                        ), // Fundo branco
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 30.dp)
                     ) {
                         Text(text = "Cadastrar", color = Color.White)
                     }
-
                 }
             }
         }

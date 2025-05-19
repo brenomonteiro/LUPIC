@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -39,7 +38,7 @@ val items = arrayOf(
 )
 
 @Composable
-fun HomeScreen( navController: NavController) {
+fun HomeScreen(navController: NavController) {
     AppScaffold(showTopBar = true) { innerPadding, _ ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2), // Define 2 colunas fixas
@@ -52,7 +51,6 @@ fun HomeScreen( navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalArrangement = Arrangement.spacedBy(60.dp)
         ) {
-
             items(items) { item -> // 10 itens na grid
                 Box(
                     modifier = Modifier
@@ -73,20 +71,15 @@ fun HomeScreen( navController: NavController) {
 
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(text = item.title, color = Color.White, fontSize = 18.sp)
-
                     }
-
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SimpleGridPreview() {
-   // HomeScreen()
+    // HomeScreen()
 }
-
-

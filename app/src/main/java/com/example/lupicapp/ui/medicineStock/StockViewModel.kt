@@ -1,6 +1,5 @@
 package com.example.lupicapp.ui.medicineStock
 
-
 import androidx.lifecycle.ViewModel
 import com.example.lupicapp.data.model.DrugItem
 import com.example.lupicapp.data.repository.MedicamentoRepository
@@ -16,15 +15,12 @@ class StockViewModel(
     private var _medicamento = MutableStateFlow<List<DrugItem>>(emptyList())
     val medicamentos = _medicamento.asStateFlow()
 
-
     fun removerMedicamento(id: String, callback: (Boolean) -> Unit) {
         medicamentoRepository.removerMedicamento(id) { sucesso ->
             if (sucesso) {
                 carregarMedicamentos()
-
             }
         }
-
     }
 
     fun carregarMedicamentos() {
@@ -32,5 +28,4 @@ class StockViewModel(
             _medicamento.value = lista
         }
     }
-
 }

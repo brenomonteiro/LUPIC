@@ -20,13 +20,12 @@ val appModule = module {
     single { FirebaseDatabase.getInstance() } // Fornece uma instância do FirebaseAuth
     single { GoogleAuthClient(androidContext(), get()) }
     single { UserRepository(get(), get()) }
-    single { MedicamentoRepository(get(),get()) }
+    single { MedicamentoRepository(get(), get()) }
 
-    viewModel { StockViewModel(get(),get()) }
+    viewModel { StockViewModel(get(), get()) }
     viewModel { UserViewModel(get()) }
     viewModel { LoginViewModel(get(), get(), get()) }
     viewModel { UserRegisterViewModel(get()) }
     viewModel { AddPillViewModel(get()) }
     viewModel { StockEditViewModel(get()) }
-
 }

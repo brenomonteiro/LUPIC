@@ -36,7 +36,7 @@ fun Lupus(
                 start = 16.dp,
                 end = 16.dp,
                 top = innerPadding.calculateTopPadding(),
-                bottom = innerPadding.calculateBottomPadding()+10.dp
+                bottom = innerPadding.calculateBottomPadding() + 10.dp
             ),
         ) {
             item {
@@ -82,8 +82,10 @@ fun Lupus(
 
             item {
                 Spacer(modifier = Modifier.height(40.dp))
-                Box(modifier = Modifier.fillMaxWidth(),
-                    contentAlignment =  Alignment.CenterEnd) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
                     Text(
                         text = "Fonte: Ministério da Saúde",
                         fontSize = 12.sp,
@@ -91,19 +93,15 @@ fun Lupus(
                     )
                 }
             }
-
-
         }
-
     }
 }
 
 @Preview
 @Composable
 fun lupusPreview() {
-  //  Lupus()
+    //  Lupus()
 }
-
 
 fun String.highlightWord(
     targetWord: String,

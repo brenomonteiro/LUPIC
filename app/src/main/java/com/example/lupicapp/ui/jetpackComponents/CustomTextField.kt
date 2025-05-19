@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.lupicapp.R
 
 @Composable
 fun CustomTextField(modifier: Modifier, label: String = "Pesquisar", rightIcon: Int? = null) {
@@ -21,20 +20,19 @@ fun CustomTextField(modifier: Modifier, label: String = "Pesquisar", rightIcon: 
         trailingIcon = {
             rightIcon?.let {
                 Icon(
-                    //R.drawable.add_roxo
-                    //painter = painterResource(id = R.drawable.add_roxo),
+                    // R.drawable.add_roxo
+                    // painter = painterResource(id = R.drawable.add_roxo),
                     painter = painterResource(id = rightIcon),
                     contentDescription = "Ícone de pesquisa",
                     modifier = Modifier.size(24.dp) // Ajusta o tamanho do ícone
                 )
             }
-
         },
         modifier = modifier,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.White,   // Fundo branco quando focado
+            focusedContainerColor = Color.White, // Fundo branco quando focado
             unfocusedContainerColor = Color.White, // Fundo branco quando não focado
-            disabledContainerColor = Color.White,  // Fundo branco quando desativado
+            disabledContainerColor = Color.White, // Fundo branco quando desativado
         ),
     )
 }

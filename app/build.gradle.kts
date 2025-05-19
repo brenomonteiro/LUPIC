@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services")
+    id("io.gitlab.arturbosch.detekt")
 }
 
 android {
@@ -48,10 +49,12 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+
 }
 
-dependencies {
 
+dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -88,5 +91,11 @@ dependencies {
 
     implementation("androidx.compose.material:material-icons-extended:1.5.4") // Verifique a última versão
     implementation ("androidx.compose.material3:material3:1.3.0")
+    add("detektPlugins", "io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")}
 
+detekt {
+    config = files("$rootDir/config/detekt/detekt.yml") // (opcional) caminho do seu arquivo de configuração
+    buildUponDefaultConfig = true // usa a configuração padrão do Detekt + personalizações
+    allRules = false              // não ativa regras instáveis
+    autoCorrect = true            // corrige automaticamente onde possível
 }

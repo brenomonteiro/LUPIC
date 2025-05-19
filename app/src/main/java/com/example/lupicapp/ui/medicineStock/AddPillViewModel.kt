@@ -10,5 +10,4 @@ class AddPillViewModel(
     fun salvarMedicamento(medicamento: DrugItem, onResult: (Boolean) -> Unit) {
         userRepository.salvarMedicamento(medicamento, onResult)
     }
-
 }

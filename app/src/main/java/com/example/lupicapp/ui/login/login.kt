@@ -5,22 +5,34 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,24 +41,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
@@ -55,11 +55,10 @@ import com.example.lupicapp.composeComponents.CheckboxAndTextRow
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-
 @Composable
 fun Login(
     viewModel: LoginViewModel = koinViewModel(),
-    navController: NavController,// Aqui está a correção
+    navController: NavController, // Aqui está a correção
     onLoginSuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
@@ -67,7 +66,6 @@ fun Login(
     val loginState by viewModel.loginState
     var emailError by remember { mutableStateOf(false) }
     var passwordError by remember { mutableStateOf(false) }
-
 
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
@@ -83,7 +81,6 @@ fun Login(
         }
 
     Box(modifier = Modifier.fillMaxSize()) {
-
         AppScaffold(showTopBar = false) { innerPadding, snackbarHostState ->
             LazyColumn(
                 // horizontalAlignment = Alignment.CenterHorizontally,
@@ -123,7 +120,7 @@ fun Login(
                         },
                         placeholder = { Text(text = "Digite seu e-mail") },
                         supportingText = {
-                            if(emailError){
+                            if (emailError) {
                                 Text(
                                     text = "Campo obrigatório"
                                 )
@@ -158,7 +155,7 @@ fun Login(
                             passwordError = it.isBlank()
                         },
                         supportingText = {
-                            if(passwordError){
+                            if (passwordError) {
                                 Text(
                                     text = "Campo obrigatório"
                                 )
@@ -181,9 +178,8 @@ fun Login(
                     )
                 }
 
-
                 item {
-                    ///sugestão, ao invez de passar o navcontroler, retornar um lambda e tratar o navigate direto nessa tela
+                    // /sugestão, ao invez de passar o navcontroler, retornar um lambda e tratar o navigate direto nessa tela
                     CheckboxAndTextRow(navController)
                 }
 
@@ -198,7 +194,9 @@ fun Login(
                             }
                         },
                         shape = RoundedCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.purple_800)), // Fundo branco
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(id = R.color.purple_800)
+                        ), // Fundo branco
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 30.dp)
@@ -251,7 +249,6 @@ fun Login(
                                 .padding(start = 8.dp)
                         )
                     }
-
                 }
 
                 item {
@@ -267,7 +264,6 @@ fun Login(
                                 .size(58.dp)
                                 .background(colorResource(id = R.color.white_400))
                                 .clickable {
-
                                     viewModel.viewModelScope.launch {
                                         val intentSender = viewModel.getSignInIntent()
                                         intentSender?.let {
@@ -278,8 +274,7 @@ fun Login(
                                             )
                                         }
                                     }
-
-                                }// Tamanho do conteúdo
+                                } // Tamanho do conteúdo
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.google),
@@ -306,9 +301,7 @@ fun Login(
                                 // modifier = Modifier.size(30.dp)
                             )
                         }
-
                     }
-
                 }
             }
         }

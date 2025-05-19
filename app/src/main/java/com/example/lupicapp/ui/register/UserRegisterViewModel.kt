@@ -18,7 +18,6 @@ class UserRegisterViewModel(
     var loadState = mutableStateOf<LoginResult>(LoginResult.Idle)
         private set
 
-
     private val _email = MutableStateFlow("")
     val email: StateFlow<String> = _email
 
@@ -62,7 +61,6 @@ class UserRegisterViewModel(
         val repeatPasswordError: String?
     )
 
-
     init {
         viewModelScope.launch {
             combine(_email, _repeatEmail, _password, _repeatPassword) { email, repeatEmail, password, repeatPassword ->
@@ -92,9 +90,6 @@ class UserRegisterViewModel(
             }
         }
     }
-
-
-
 
 //    init {
 //        viewModelScope.launch {
@@ -181,11 +176,9 @@ class UserRegisterViewModel(
     }
 
     fun registerUser() {
-
-        if ( !_emailError.value && !_repeatEmailError.value && !_passwordError.value && !_repeatPasswordError.value && !_email.value.isBlank() &&  !_password.value.isNullOrBlank() ){
+        if (!_emailError.value && !_repeatEmailError.value && !_passwordError.value && !_repeatPasswordError.value && !_email.value.isBlank() && !_password.value.isNullOrBlank()) {
             registerWithEmailFirebase(_email.value, _password.value!!)
         }
-
     }
 
     fun registerWithEmailFirebase(email: String, password: String) {
@@ -197,7 +190,7 @@ class UserRegisterViewModel(
                     _loginState.value = if (task.isSuccessful) {
                         LoginResult.Success
                     } else {
-                        Log.i(" entrou aquii", task.exception?.message?: "rtrtrt")
+                        Log.i(" entrou aquii", task.exception?.message ?: "rtrtrt")
                         LoginResult.Error(task.exception?.message ?: "Erro desconhecido")
                     }
                 }

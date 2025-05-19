@@ -1,7 +1,6 @@
 package com.example.lupicapp.ui.welcome
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -97,18 +95,18 @@ fun Welcome(navController: NavController) {
                 Button(
                     onClick = {
                         navController.navigate("register")
-                              },
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(start = 16.dp, end = 16.dp, top = 20.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colorResource(id = R.color.purple_800), // Cor de fundo do botão
-                        contentColor = Color.White  // Cor do texto do botão
+                        contentColor = Color.White // Cor do texto do botão
                     ),
                     shape = RoundedCornerShape(5.dp)
                 ) {
                     Text(
-                        //modifier = Modifier.padding(top = 18.dp, bottom = 18.dp),
+                        // modifier = Modifier.padding(top = 18.dp, bottom = 18.dp),
                         text = "Criar conta",
                         fontSize = 16.sp,
                         color = Color.White,
@@ -130,12 +128,10 @@ fun Welcome(navController: NavController) {
                         .clickable {
                             navController.navigate("login") // Redireciona para a tela home após o login
                         }, // Adiciona algum padding, se necessário
-                    fontSize = 16.sp,  // Define o tamanho da fonte
-                    color = Color.Black,  // Cor do texto
+                    fontSize = 16.sp, // Define o tamanho da fonte
+                    color = Color.Black, // Cor do texto
                 )
             }
-
-
         }
     }
 }
@@ -143,5 +139,5 @@ fun Welcome(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun previewstokEdit() {
-    //LoginCompose()
+    // LoginCompose()
 }
