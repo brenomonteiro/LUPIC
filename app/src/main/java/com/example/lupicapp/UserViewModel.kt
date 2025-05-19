@@ -8,7 +8,7 @@ class UserViewModel(
 ): ViewModel() {
 
     fun salvarUsuario(){
-        repository.salvarUsuarioLogado()
+       // repository.salvarUsuarioLogado()
     }
 
     fun getUsuarioLogado() = repository.getUsuarioAtual()

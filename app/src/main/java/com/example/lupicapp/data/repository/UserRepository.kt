@@ -9,16 +9,39 @@ class UserRepository(
     private val firebaseAuth: FirebaseAuth, private val firebaseDatabase: FirebaseDatabase
 ) {
 
-    fun salvarUsuarioLogado() {
-        val user = firebaseAuth.currentUser ?: return
-        val usuario = User(
-            id = user.uid, nome = user.displayName ?: "", email = user.email ?: ""
-        )
+    fun salvarUsuarioLogado(onResult: (Boolean, User?) -> Unit) {
 
-        val referencia = firebaseDatabase.reference
-        referencia.child("usuarios").child(usuario.id).setValue(usuario)
+        val firebaseUser = firebaseAuth.currentUser
 
+        if (firebaseUser == null) {
+            onResult(false, null)
+            return
+        }
+        val uid = firebaseUser.uid
 
+        val refUser = firebaseDatabase.reference.child("usuarios").child(uid)
+        refUser.get().addOnSuccessListener {
+            if (it.exists()) {
+                val usuario = it.getValue(User::class.java)
+                onResult(true, usuario)
+            }else{
+
+                val usuario = User(
+                    id = firebaseUser.uid, nome = firebaseUser.displayName ?: "", email = firebaseUser.email ?: ""
+                )
+
+                refUser.setValue(usuario).addOnCompleteListener {
+                    if (it.isSuccessful){
+                        onResult(true, usuario)
+                    }else{
+                        onResult(false,null)
+                    }
+                }
+            }
+
+        }.addOnFailureListener {
+            onResult(false, null)
+        }
     }
 
     fun getUsuarioAtual(): User? {
@@ -36,7 +59,6 @@ class UserRepository(
                 .child("usuarios")
                 .child(uid)
                 .child("medicamentos")
-//// retornar o caso de erro tbm
         reference.get().addOnSuccessListener { snapshot ->
             val lista = mutableListOf<DrugItem>()
             snapshot.children.forEach {
@@ -62,7 +84,6 @@ class UserRepository(
                 .child("medicamentos")
                 .child(medicamento.id)
 
-        //////// colocar caso de erro tbm
         reference.setValue(medicamento)
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }

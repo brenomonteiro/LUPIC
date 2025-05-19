@@ -59,9 +59,15 @@ class LoginViewModel(
 
     fun signInWithGoogle(intent: Intent?, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
-            userRepository.salvarUsuarioLogado()
+
             val user = googleAuthClient.signInWithIntent(intent)
-            onResult(user != null)
+            userRepository.salvarUsuarioLogado(){ sucesso, usuario ->
+                if (sucesso && usuario != null) {
+                    onResult(true)
+                } else {
+                    onResult(false)
+                }
+            }
         }
     }
 
