@@ -1,6 +1,7 @@
 package com.example.lupicapp.di
 
 import com.example.lupicapp.GoogleAuthClient
+import com.example.lupicapp.UiStateViewModel
 import com.example.lupicapp.UserViewModel
 import com.example.lupicapp.data.repository.MedicamentoRepository
 import com.example.lupicapp.data.repository.UserRepository
@@ -28,4 +29,7 @@ val appModule = module {
     viewModel { UserRegisterViewModel(get()) }
     viewModel { AddPillViewModel(get()) }
     viewModel { StockEditViewModel(get()) }
+    viewModel { UiStateViewModel() }
+
+
 }

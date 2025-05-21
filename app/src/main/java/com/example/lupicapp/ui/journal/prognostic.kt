@@ -28,14 +28,13 @@ import com.example.lupicapp.R
 fun Prognostic(
     navController: NavController
 ) {
-    AppScaffold(navController = navController, showBackArrow = true) { innerPadding, _ ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
                 start = 16.dp,
                 end = 16.dp,
-                top = innerPadding.calculateTopPadding(),
-                bottom = innerPadding.calculateBottomPadding() + 10.dp
+                top = 16.dp,
+                bottom = 16.dp+ 10.dp
             ),
         ) {
             item {
@@ -152,7 +151,7 @@ fun Prognostic(
                 }
             }
         }
-    }
+
 }
 
 @Preview

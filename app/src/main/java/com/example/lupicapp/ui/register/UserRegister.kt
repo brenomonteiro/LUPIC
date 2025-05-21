@@ -60,23 +60,17 @@ fun UserRegister(
     val loadState by viewModel.loadState
 
     Box(modifier = Modifier.fillMaxSize()) {
-        AppScaffold(showTopBar = false) { innerPadding, snackbarHostState ->
             LazyColumn(
                 // horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(innerPadding)
+                    .padding(16.dp)
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxSize()
             ) {
                 item {
                     when (val state = loginState) {
                         is LoginResult.Error -> {
-                            LaunchedEffect(state) {
-                                snackbarHostState.showSnackbar(
-                                    message = "Erro: ${state.message}",
-                                    duration = SnackbarDuration.Short
-                                )
-                            }
+
                         }
 
                         is LoginResult.Success -> {
@@ -258,7 +252,7 @@ fun UserRegister(
                     }
                 }
             }
-        }
+
     }
     if (loadState is LoginResult.Loading) {
         Box(

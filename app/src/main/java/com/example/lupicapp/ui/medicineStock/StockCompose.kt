@@ -16,11 +16,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,22 +41,40 @@ import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 // import com.example.lupic.R
 import com.example.lupicapp.R
+import com.example.lupicapp.UiStateViewModel
+import com.example.lupicapp.composeComponents.snackbar.SnackbarController
+import com.example.lupicapp.composeComponents.snackbar.SnackbarEvent
+import com.example.lupicapp.data.model.SnackbarType
 import com.example.lupicapp.ui.medicineStock.StockViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Stok(
     navController: NavController,
-    viewModel: StockViewModel = koinViewModel()
+    viewModel: StockViewModel = koinViewModel(),
+    uiStateViewModel: UiStateViewModel = koinViewModel()
 ) {
+
+    //val loginState by viewModel.showSnackBar.collectAsState()
+
     // val medicamentos = viewModel.medicamentos
     val medicamentos by viewModel.medicamentos.collectAsState()
     LaunchedEffect(Unit) {
+        uiStateViewModel.setTopBar(
+            title = "Bem-vindo!",
+            showTopBar = false,
+            showBackArrow = true
+        )
         viewModel.carregarMedicamentos()
     }
     val context = LocalContext.current
 
-    AppScaffold(navController = navController, showBackArrow = true) { innerPadding, _ ->
+    var message by remember { mutableStateOf<String?>(null) }
+    var type by remember { mutableStateOf(SnackbarType.SUCCESS) }
+
+   // val scope = rememberCoroutineScope()
+  //  AppScaffold(navController = navController, showBackArrow = true) { innerPadding, snackbarHostState ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,95 +82,11 @@ fun Stok(
             contentPadding = PaddingValues(
                 start = 16.dp,
                 end = 16.dp,
-                top = innerPadding.calculateTopPadding(),
-                bottom = innerPadding.calculateBottomPadding()
+                top = 16.dp,
+               bottom = 16.dp
             )
         ) {
-            /**  items(medicamentos){
 
-             Box(
-             modifier = Modifier
-             .fillMaxWidth()
-             .padding(8.dp)
-             .background(
-             color = colorResource(id = R.color.formulario),
-             shape = RoundedCornerShape(14.dp)
-             )
-             ) {
-             Column(
-             Modifier
-             .padding(16.dp)
-             .fillMaxSize()
-             ) {
-             // Nome do medicamento
-
-             Row(
-             modifier = Modifier.fillMaxWidth(),
-             horizontalArrangement = Arrangement.SpaceBetween
-             ) {
-
-             Text(
-             text = it.name,
-             fontSize = 20.sp,
-             color = colorResource(id = R.color.purple_800),
-             fontWeight = FontWeight.Bold,
-             )
-             Spacer(modifier = Modifier.weight(1f))
-
-             Image(
-             modifier = Modifier.clickable {
-             navController.navigate("editar_medicamento/${it.id}")
-             },
-             painter = painterResource(id = R.drawable.caneta_editar),
-             contentDescription = "Imagem à esquerda",
-             )
-             Spacer(modifier = Modifier.width(8.dp))
-             Image(
-             modifier = Modifier.clickable {
-             viewModel.removerMedicamento(it.id) {
-             }
-             },
-             painter = painterResource(id = R.drawable.lixeira),
-             contentDescription = "Imagem à esquerda",
-             )
-
-             }
-
-             Spacer(modifier = Modifier.height(8.dp))
-
-             // Informações do medicamento
-
-             Row {
-             Image(
-             painter = painterResource(id = R.drawable.comprimido),
-             contentDescription = "Imagem à esquerda",
-             )
-             Spacer(modifier = Modifier.width(8.dp))
-             Text(
-             text = "${it.pillsADay} comprimidos por dia",
-             fontSize = 16.sp,
-             color = Color.Black
-             )
-             }
-
-             Spacer(modifier = Modifier.height(4.dp))
-
-             Row {
-             Image(
-             painter = painterResource(id = R.drawable.caixa_estoque),
-             contentDescription = "Imagem à esquerda",
-             )
-             Spacer(modifier = Modifier.width(8.dp))
-             Text(
-             text = "${it.totalPills} comprimidos",
-             fontSize = 16.sp,
-             color = Color.Black
-             )
-             }
-
-             }
-             }
-             }**/
 
             item {
                 Column(
@@ -221,27 +161,14 @@ fun Stok(
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Image(
                                             modifier = Modifier.clickable {
-                                                viewModel.removerMedicamento(it.id) {
-                                                    if (it) {
-                                                        viewModel.carregarMedicamentos()
-                                                        Toast.makeText(
-                                                            context,
-                                                            "Removido com sucesso!",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                    } else {
-                                                        Toast.makeText(
-                                                            context,
-                                                            "falha ao excluir",
-                                                            Toast.LENGTH_SHORT
-                                                        )
-                                                    }
-                                                }
+                                                viewModel.removerMedicamento(it.id)
                                             },
                                             painter = painterResource(id = R.drawable.lixeira),
                                             contentDescription = "Imagem à esquerda",
                                         )
                                     }
+
+
 
                                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -294,8 +221,9 @@ fun Stok(
                     }
                 }
             }
+
         }
-    }
+   // }
 }
 
 @Preview(showBackground = true)

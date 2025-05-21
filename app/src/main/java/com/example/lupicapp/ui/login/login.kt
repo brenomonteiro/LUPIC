@@ -81,11 +81,10 @@ fun Login(
         }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        AppScaffold(showTopBar = false) { innerPadding, snackbarHostState ->
             LazyColumn(
                 // horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(innerPadding)
+                    .padding(16.dp)
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxSize()
             ) {
@@ -206,12 +205,12 @@ fun Login(
 
                     when (val state = loginState) {
                         is LoginResult.Error -> {
-                            LaunchedEffect(state) {
-                                snackbarHostState.showSnackbar(
-                                    message = "Erro: ${state.message}",
-                                    duration = SnackbarDuration.Short
-                                )
-                            }
+//                            LaunchedEffect(state) {
+//                                snackbarHostState.showSnackbar(
+//                                    message = "Erro: ${state.message}",
+//                                    duration = SnackbarDuration.Short
+//                                )
+//                            }
                         }
 
                         is LoginResult.Success -> {
@@ -304,7 +303,7 @@ fun Login(
                     }
                 }
             }
-        }
+
     }
 
     when (loginState) {

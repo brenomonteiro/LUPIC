@@ -5,8 +5,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.lupicapp.composeComponents.snackbar.SnackbarController
+import com.example.lupicapp.composeComponents.snackbar.SnackbarEvent
 import com.example.lupicapp.data.model.DrugItem
 import com.example.lupicapp.data.repository.MedicamentoRepository
+import kotlinx.coroutines.launch
 
 class StockEditViewModel(private val repository: MedicamentoRepository) : ViewModel() {
 
@@ -14,18 +18,30 @@ class StockEditViewModel(private val repository: MedicamentoRepository) : ViewMo
         private set
 
     fun carregarMedicamento(id: String) {
-// medicamentos = callback
         repository.buscarMedicamentosPorId(id) {
-            Log.i("objeto carregado  funcao", it.toString())
             medicamento = it
         }
     }
 
-//    fun editarMedicamento(id:String,drugItem: DrugItem){
-//        repository.atualizarMedicamento(id, drugItem)
-//    }
+    fun editarMedicamento(id: String, callback: () -> Unit) {
+        repository.atualizarMedicamento(id, medicamento!!){
+            if (it) {
+                showSnackbar("Operação realizada com sucesso !")
+            }else{
+                showSnackbar("Falha ao adicionar medicamento")
+            }
+            callback()
+        }
+    }
 
-    fun editarMedicamento(id: String, callback: (Boolean) -> Unit) {
-        repository.atualizarMedicamento(id, medicamento!!, callback)
+
+    fun showSnackbar(message: String) {
+        viewModelScope.launch {
+            SnackbarController.sendEvent(
+                event = SnackbarEvent(
+                    message = message
+                )
+            )
+        }
     }
 }

@@ -29,11 +29,10 @@ import com.example.lupicapp.R
 
 @Composable
 fun Welcome(navController: NavController) {
-    AppScaffold(showTopBar = false) { innerPadding, _ ->
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .padding(innerPadding)
+                .padding(16.dp)
                 .fillMaxSize()
         ) {
             item {
@@ -133,7 +132,7 @@ fun Welcome(navController: NavController) {
                 )
             }
         }
-    }
+
 }
 
 @Preview(showBackground = true)

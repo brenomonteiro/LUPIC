@@ -39,14 +39,13 @@ val items = arrayOf(
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    AppScaffold(showTopBar = true) { innerPadding, _ ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2), // Define 2 colunas fixas
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
                 start = 16.dp,
                 end = 16.dp,
-                top = innerPadding.calculateTopPadding()
+                top = 16.dp
             ),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalArrangement = Arrangement.spacedBy(60.dp)
@@ -75,7 +74,7 @@ fun HomeScreen(navController: NavController) {
                 }
             }
         }
-    }
+
 }
 
 @Preview(showBackground = true)
