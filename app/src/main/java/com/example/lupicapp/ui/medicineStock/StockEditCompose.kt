@@ -39,7 +39,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
+import com.example.lupicapp.UiStateViewModel
+import com.example.lupicapp.data.model.TopBarFactory
 import com.example.lupicapp.ui.medicineStock.StockEditViewModel
+import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -56,8 +59,14 @@ fun StokEdit(
     var firstPeriod by remember { mutableStateOf("") }
     var secondPeriod by remember { mutableStateOf("") }
 
+    val uiStateViewModel: UiStateViewModel = getViewModel()
+
     val medicamento = viewModel.medicamento
     LaunchedEffect(medicamento) {
+
+        uiStateViewModel.setTopBar(
+            TopBarFactory().default()
+        )
         viewModel.carregarMedicamento(id)
         medicamento?.let {
             totalPills = it.totalPills

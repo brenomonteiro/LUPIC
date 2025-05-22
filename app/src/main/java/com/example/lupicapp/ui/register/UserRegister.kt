@@ -37,7 +37,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
+import com.example.lupicapp.UiStateViewModel
 import com.example.lupicapp.ui.login.LoginResult
+import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -59,7 +61,20 @@ fun UserRegister(
     val loginState by viewModel.loginState.collectAsState()
     val loadState by viewModel.loadState
 
+    val uiStateViewModel: UiStateViewModel = getViewModel()
+    LaunchedEffect(Unit) {
+        uiStateViewModel.setTopBar(
+            title = "",
+            showTopBar = false,
+            showEmptyTopBar = false,
+            showBackArrow = true,
+            showImageNavigationBar = false
+        )
+    }
+
+
     Box(modifier = Modifier.fillMaxSize()) {
+
             LazyColumn(
                 // horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier

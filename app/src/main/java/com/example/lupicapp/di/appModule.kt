@@ -29,7 +29,8 @@ val appModule = module {
     viewModel { UserRegisterViewModel(get()) }
     viewModel { AddPillViewModel(get()) }
     viewModel { StockEditViewModel(get()) }
-    viewModel { UiStateViewModel() }
+    single  { UiStateViewModel() }
+
 
 
 }

@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,8 +42,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
+import com.example.lupicapp.UiStateViewModel
 import com.example.lupicapp.data.model.DrugItem
+import com.example.lupicapp.data.model.TopBarFactory
 import com.example.lupicapp.ui.medicineStock.AddPillViewModel
+import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -69,264 +73,228 @@ fun AddPill(
         mutableStateOf("")
     }
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White),
+    val uiStateViewModel: UiStateViewModel = getViewModel()
+    LaunchedEffect(Unit) {
+        uiStateViewModel.setTopBar(
+            TopBarFactory().default()
+        )
+    }
 
-            contentPadding = PaddingValues(
-                start = 16.dp,
-                end = 16.dp,
-                top = 16.dp,
-                bottom = 16.dp
-            ),
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            end = 16.dp,
+            top = 16.dp,
+            bottom = 16.dp
+        ),
 
         ) {
-            item {
-                Text(
-                    modifier = Modifier.padding(bottom = 16.dp, top = 28.dp),
-                    text = "Adicionar Medicamento",
-                    fontSize = 25.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+        item {
+            Text(
+                modifier = Modifier.padding(bottom = 16.dp, top = 28.dp),
+                text = "Adicionar Medicamento",
+                fontSize = 25.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
-            item {
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
-                    ),
-                    colors = CardDefaults.cardColors(
-                        containerColor = colorResource(id = R.color.purple_100) // cor de fundo do Card
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            // modifier = Modifier.padding(top = 16.dp)
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.medicine),
-                                contentDescription = "Imagem à esquerda",
-                                modifier = Modifier.size(24.dp)
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
+        item {
+            ElevatedCard(
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 6.dp
+                ),
+                colors = CardDefaults.cardColors(
+                    containerColor = colorResource(id = R.color.purple_100) // cor de fundo do Card
+                ),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        // modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.medicine),
+                            contentDescription = "Imagem à esquerda",
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
 
-                            Text(
-                                text = "Medicamento",
-                                fontSize = 20.sp,
-                                color = Color.Black,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        OutlinedTextField(
-                            value = nome.value,
-                            onValueChange = { nome.value = it },
-                            label = { Text("Nome do medicamento") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
+                        Text(
+                            text = "Medicamento",
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
                         )
                     }
-                }
-            }
-            item { Spacer(modifier = Modifier.height(28.dp)) }
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            item {
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
-                    ),
-                    colors = CardDefaults.cardColors(
-                        containerColor = colorResource(id = R.color.purple_100) // cor de fundo do Card
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.medicine),
-                                contentDescription = "Imagem à esquerda",
-                                modifier = Modifier.size(24.dp)
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-
-                            Text(
-                                text = "Posologia",
-                                fontSize = 20.sp,
-                                color = Color.Black,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        OutlinedTextField(
-                            value = comprimidosPorDose.value,
-                            onValueChange = { comprimidosPorDose.value = it },
-                            label = { Text("Comprimidos por dose") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-                        OutlinedTextField(
-                            value = vezesAoDia.value,
-                            onValueChange = { vezesAoDia.value = it },
-                            label = { Text("Vezes ao dia") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(text = "1ª dose")
-                            Spacer(modifier = Modifier.width(118.dp))
-                            OutlinedTextField(
-                                value = firstDose.value,
-                                onValueChange = { firstDose.value = it },
-                                label = { Text("Horário") },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 8.dp)
-                            )
-                        }
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(text = "2ª dose")
-                            Spacer(modifier = Modifier.width(118.dp))
-                            OutlinedTextField(
-                                value = secondDose.value,
-                                onValueChange = { secondDose.value = it },
-                                label = { Text("Horário") },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 8.dp)
-                            )
-                        }
-                    }
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(28.dp)) }
-
-            item {
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
-                    ),
-                    colors = CardDefaults.cardColors(
-                        containerColor = colorResource(id = R.color.purple_100) // cor de fundo do Card
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.caixa_estoque),
-                                contentDescription = "Imagem à esquerda",
-                                modifier = Modifier.size(24.dp)
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-
-                            Text(
-                                text = "Estoque",
-                                fontSize = 20.sp,
-                                color = Color.Black,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        OutlinedTextField(
-                            value = total.value,
-                            onValueChange = { total.value = it },
-                            label = { Text("Comprimidos") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-                    }
-                }
-            }
-
-//        item {
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//            Column(
-//                Modifier
-//                    .background(
-//                        colorResource(id = R.color.purple_100),
-//                        shape = RoundedCornerShape(12.dp)
-//                    )
-//                    .padding(16.dp)
-//                    .fillMaxSize()
-//            ) {
-//                Text(
-//                    modifier = Modifier.padding(bottom = 16.dp),
-//                    text = "Posologia", fontSize = 20.sp,
-//                    color = Color.Black,
-//                    fontWeight = FontWeight.Bold
-//                )
-//
-//                CustomTextField(Modifier.fillMaxSize())
-//                Spacer(modifier = Modifier.height(8.dp))
-//                CustomTextField(Modifier.fillMaxSize())
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    modifier = Modifier.padding(
-//                        top = 8.dp,
-//                        start = 16.dp
-//                    )
-//                ) {
-//                    Text(
-//                        text = "1 dose",
-//                        Modifier.weight(1f)
-//                    )
-//                    CustomTextField(
-//                        modifier = Modifier
-//                            .weight(1f)
-//                            .fillMaxSize()
-//                    )
-//                }
-//
-//
-//            }
-//        }
-            item {
-                Button(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 16.dp),
-                    onClick = {
-                        viewModel.salvarMedicamento(
-                            DrugItem(
-                                name = nome.value,
-                                pillsADay = comprimidosPorDose.value,
-                                timesADay = vezesAoDia.value,
-                                firstPeriod = firstDose.value,
-                                secondPeriod = secondDose.value,
-                                totalPills = total.value
-                            )
-                        ) {
-                            navController?.popBackStack()
-                        }
-                    },
-                    shape = RoundedCornerShape(5.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.purple_800))
-                ) {
-                    Text(text = "Salvar")
+                    OutlinedTextField(
+                        value = nome.value,
+                        onValueChange = { nome.value = it },
+                        label = { Text("Nome do medicamento") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
                 }
             }
         }
+        item { Spacer(modifier = Modifier.height(28.dp)) }
+
+        item {
+            ElevatedCard(
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 6.dp
+                ),
+                colors = CardDefaults.cardColors(
+                    containerColor = colorResource(id = R.color.purple_100) // cor de fundo do Card
+                ),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.medicine),
+                            contentDescription = "Imagem à esquerda",
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        Text(
+                            text = "Posologia",
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedTextField(
+                        value = comprimidosPorDose.value,
+                        onValueChange = { comprimidosPorDose.value = it },
+                        label = { Text("Comprimidos por dose") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
+                    OutlinedTextField(
+                        value = vezesAoDia.value,
+                        onValueChange = { vezesAoDia.value = it },
+                        label = { Text("Vezes ao dia") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(text = "1ª dose")
+                        Spacer(modifier = Modifier.width(118.dp))
+                        OutlinedTextField(
+                            value = firstDose.value,
+                            onValueChange = { firstDose.value = it },
+                            label = { Text("Horário") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                        )
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(text = "2ª dose")
+                        Spacer(modifier = Modifier.width(118.dp))
+                        OutlinedTextField(
+                            value = secondDose.value,
+                            onValueChange = { secondDose.value = it },
+                            label = { Text("Horário") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                        )
+                    }
+                }
+            }
+        }
+
+        item { Spacer(modifier = Modifier.height(28.dp)) }
+
+        item {
+            ElevatedCard(
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 6.dp
+                ),
+                colors = CardDefaults.cardColors(
+                    containerColor = colorResource(id = R.color.purple_100) // cor de fundo do Card
+                ),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.caixa_estoque),
+                            contentDescription = "Imagem à esquerda",
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+
+                        Text(
+                            text = "Estoque",
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedTextField(
+                        value = total.value,
+                        onValueChange = { total.value = it },
+                        label = { Text("Comprimidos") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
+                }
+            }
+        }
+
+        item {
+            Button(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 16.dp),
+                onClick = {
+                    viewModel.salvarMedicamento(
+                        DrugItem(
+                            name = nome.value,
+                            pillsADay = comprimidosPorDose.value,
+                            timesADay = vezesAoDia.value,
+                            firstPeriod = firstDose.value,
+                            secondPeriod = secondDose.value,
+                            totalPills = total.value
+                        )
+                    ) {
+                        navController?.popBackStack()
+                    }
+                },
+                shape = RoundedCornerShape(5.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.purple_800))
+            ) {
+                Text(text = "Salvar")
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)

@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +27,10 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
+import com.example.lupicapp.UiStateViewModel
 import com.example.lupicapp.data.model.JornalItem
+import com.example.lupicapp.data.model.TopBarFactory
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun Journal(
@@ -34,6 +38,13 @@ fun Journal(
     navController: NavController, // Aqui está a correção
 //    onLoginSuccess: () -> Unit
 ) {
+
+    val uiStateViewModel: UiStateViewModel = getViewModel()
+    LaunchedEffect(Unit) {
+        uiStateViewModel.setTopBar(
+            TopBarFactory().default()
+        )
+    }
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(

@@ -45,8 +45,10 @@ import com.example.lupicapp.UiStateViewModel
 import com.example.lupicapp.composeComponents.snackbar.SnackbarController
 import com.example.lupicapp.composeComponents.snackbar.SnackbarEvent
 import com.example.lupicapp.data.model.SnackbarType
+import com.example.lupicapp.data.model.TopBarFactory
 import com.example.lupicapp.ui.medicineStock.StockViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,13 +62,11 @@ fun Stok(
 
     // val medicamentos = viewModel.medicamentos
     val medicamentos by viewModel.medicamentos.collectAsState()
+    val uiStateViewModel: UiStateViewModel = getViewModel()
     LaunchedEffect(Unit) {
         uiStateViewModel.setTopBar(
-            title = "Bem-vindo!",
-            showTopBar = false,
-            showBackArrow = true
+            TopBarFactory().default()
         )
-        viewModel.carregarMedicamentos()
     }
     val context = LocalContext.current
 

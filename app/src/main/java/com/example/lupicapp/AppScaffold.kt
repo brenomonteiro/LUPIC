@@ -37,19 +37,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.lupicapp.composeComponents.snackbar.ObserveAsEvent
 import com.example.lupicapp.composeComponents.snackbar.SnackbarController
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold(
-    navController: NavController? = null,
-    uiStateViewModel: UiStateViewModel, onBackClick: () -> Unit = {},
+    navController: NavController,
+    //,
+    //uiStateViewModel: UiStateViewModel,
+    onBackClick: () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
+
+  // val  navController: NavController =rememberNavController()
+
+
+    val uiStateViewModel: UiStateViewModel = getViewModel()
+
     val uiState by uiStateViewModel.uiState.collectAsState()
+
+    println("TopBar atualizada: ${uiState} opa")
 
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -73,27 +86,37 @@ fun AppScaffold(
             }
         }
     }
+
     Scaffold(
         topBar = {
             if (uiState.showTopBar) {
                 TopBarWithImageAndText() // Exibe a TopBar normalmente
+            }else if(uiState.showEmptyTopBar){
+                TopAppBar(
+                    title = {},
+                    actions = {},
+                    navigationIcon = {}
+                )
+
             } else {
                 // Quando showTopBar for false, exibe um TopAppBar vazio (sem conteúdo, mas ainda ocupando o espaço)
                 TopAppBar(
                     title = {},
                     actions = {
-                        Image(
-                            painter = painterResource(id = R.drawable.logosplash),
-                            contentDescription = "Imagem à esquerda",
-                            modifier = Modifier
-                                .size(70.dp)
-                                .padding(end = 8.dp)
-                        )
+                        if (uiState.showImageNavigationBar){
+                            Image(
+                                painter = painterResource(id = R.drawable.logosplash),
+                                contentDescription = "Imagem à esquerda",
+                                modifier = Modifier
+                                    .size(70.dp)
+                                    .padding(end = 8.dp)
+                            )
+                        }
+
                         Spacer(modifier = Modifier.width(22.dp))
                     },
                     navigationIcon = {
                         if (uiState.showBackArrow) {
-                            Log.i("aooooooooooo", uiState.showBackArrow.toString())
                             IconButton(onClick = { navController?.popBackStack() }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.arrow),
@@ -106,18 +129,21 @@ fun AppScaffold(
             }
         },
         bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = false,
-                    onClick = {
-                        navController?.navigate("home") {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    },
-                    icon = { Icon(Icons.Default.Home, "") },
-                    label = { Text("Home") }
-                )
+            if(uiState.showNavigationBar){
+                NavigationBar {
+                    NavigationBarItem(
+                        selected = false,
+                        onClick = {
+                            navController?.navigate("home") {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        },
+                        icon = { Icon(Icons.Default.Home, "") },
+                        label = { Text("Home") }
+                    )
+                }
             }
+
         },
         snackbarHost = {
             SnackbarHost(

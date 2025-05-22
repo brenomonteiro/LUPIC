@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +30,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
+import com.example.lupicapp.UiStateViewModel
 import com.example.lupicapp.data.model.GridItem
+import org.koin.androidx.compose.getViewModel
 
 val items = arrayOf(
     GridItem("Medicamentos", R.drawable.medicamentos, "stock"),
@@ -39,6 +42,16 @@ val items = arrayOf(
 
 @Composable
 fun HomeScreen(navController: NavController) {
+
+
+    val uiStateViewModel: UiStateViewModel = getViewModel()
+    LaunchedEffect(Unit) {
+        uiStateViewModel.setTopBar(
+            title = "",
+            showTopBar = true,
+            showBackArrow = false
+        )
+    }
         LazyVerticalGrid(
             columns = GridCells.Fixed(2), // Define 2 colunas fixas
             modifier = Modifier.fillMaxSize(),

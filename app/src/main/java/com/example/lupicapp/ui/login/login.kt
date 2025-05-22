@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,8 +52,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.lupicapp.AppScaffold
 import com.example.lupicapp.R
+import com.example.lupicapp.TopBarUiState
+import com.example.lupicapp.UiStateViewModel
 import com.example.lupicapp.composeComponents.CheckboxAndTextRow
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -67,6 +71,17 @@ fun Login(
     var emailError by remember { mutableStateOf(false) }
     var passwordError by remember { mutableStateOf(false) }
 
+
+    val uiStateViewModel: UiStateViewModel = getViewModel()
+    LaunchedEffect(Unit) {
+        uiStateViewModel.setTopBar(
+            title = "",
+            showTopBar = false,
+            showEmptyTopBar = false,
+            showBackArrow = true,
+            showImageNavigationBar = false
+        )
+    }
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -79,6 +94,9 @@ fun Login(
                 }
             }
         }
+
+
+
 
     Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
